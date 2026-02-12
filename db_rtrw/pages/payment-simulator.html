@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Simulator - Sistem Informasi RT/RW</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="../assets/dashboard.css">
+  <script src="../assets/utils.js"></script>
+  <script src="../assets/data.js"></script>
+  <script src="../assets/payment-system.js"></script>
+  <style>
+    .payment-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .payment-header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid var(--warna-utama);
+      padding-bottom: 20px;
+    }
+
+    .payment-header h2 {
+      color: var(--warna-utama);
+      margin: 0 0 10px 0;
+    }
+
+    .simulation-label {
+      background: #FFF3CD;
+      border: 2px solid #FF9800;
+      color: #856404;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .payment-details {
+      background: #F5F5F5;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #DDD;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #666;
+    }
+
+    .detail-value {
+      text-align: right;
+      color: var(--warna-utama);
+      font-weight: bold;
+    }
+
+    .payment-method-selector {
+      margin: 20px 0;
+    }
+
+    .payment-method-selector label {
+      display: block;
+      margin-bottom: 10px;
+      padding: 15px;
+      border: 2px solid #DDD;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: white;
+    }
+
+    .payment-method-selector label:hover {
+      border-color: var(--warna-utama);
+      background: #F9F9F9;
+    }
+
+    .payment-method-selector input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .payment-method-selector input[type="radio"]:checked + .method-info {
+      color: var(--warna-utama);
+      font-weight: bold;
+    }
+
+    .method-info {
+      margin-left: 25px;
+    }
+
+    .method-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .method-description {
+      font-size: 13px;
+      color: #999;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .button-group button {
+      flex: 1;
+    }
+
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid var(--warna-utama);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .success-result {
+      display: none;
+      text-align: center;
+      padding: 30px;
+      background: #E8F5E9;
+      border-radius: 5px;
+      border-left: 5px solid var(--warna-success);
+    }
+
+    .success-result h3 {
+      color: var(--warna-success);
+      margin-top: 0;
+    }
+
+    .failed-result {
+      display: none;
+      text-align: center;
+      padding: 30px;
+      background: #FFEBEE;
+      border-radius: 5px;
+      border-left: 5px solid var(--warna-danger);
+    }
+
+    .failed-result h3 {
+      color: var(--warna-danger);
+      margin-top: 0;
+    }
+
+    .receipt-section {
+      background: white;
+      border: 2px dashed #DDD;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #EEE;
+    }
+
+    .receipt-row:last-child {
+      border-bottom: none;
+    }
+
+    .receipt-important {
+      background: #FFF3CD;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 3px;
+      color: #856404;
+      font-weight: bold;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .info-box {
+      background: #E3F2FD;
+      border-left: 4px solid var(--warna-info);
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <div class="header-title">
+        <h1>Payment Simulator</h1>
+        <p>Simulasi Pembayaran Iuran RT/RW</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="payment-container" id="paymentForm">
+      <!-- HEADER -->
+      <div class="payment-header">
+        <h2>💳 Pembayaran Iuran Bulanan</h2>
+        <p style="margin: 0; color: #666;">Silakan pilih metode pembayaran simulasi</p>
+      </div>
+
+      <!-- SIMULATION WARNING -->
+      <div class="simulation-label">
+        🧪 SIMULASI PEMBAYARAN (bukan transaksi asli)
+      </div>
+
+      <!-- PAYMENT DETAILS -->
+      <div class="payment-details">
+        <div class="detail-row">
+          <span class="detail-label">Nominal Iuran:</span>
+          <span class="detail-value" id="nominalDisplay">Rp 50.000</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Bulan:</span>
+          <span class="detail-value" id="bulanDisplay">Januari 2025</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Nama Warga:</span>
+          <span class="detail-value" id="wargaDisplay">Loading...</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">ID Warga:</span>
+          <span class="detail-value" id="idDisplay">RW05/001</span>
+        </div>
+      </div>
+
+      <!-- INFO BOX -->
+      <div class="info-box">
+        <strong>ℹ️ Informasi:</strong><br>
+        Ini adalah simulasi pembayaran untuk keperluan demo. Data pembayaran akan disimpan di sistem namun tidak ada uang yang ditarik. Gunakan untuk testing dan presentasi.
+      </div>
+
+      <!-- PAYMENT METHOD SELECTOR -->
+      <div class="payment-method-selector">
+        <p style="margin: 0 0 15px 0; font-weight: bold;">Pilih Metode Pembayaran:</p>
+
+        <label>
+          <input type="radio" name="paymentMethod" value="qris" checked>
+          <div class="method-info">
+            <div class="method-name">💳 QRIS</div>
+            <div class="method-description">Scan QR Code atau gunakan E-Wallet (GoPay, OVO, DANA, LinkAja)</div>
+          </div>
+        </label>
+
+        <label>
+          <input type="radio" name="paymentMethod" value="transfer">
+          <div class="method-info">
+            <div class="method-name">🏦 Transfer Bank</div>
+            <div class="method-description">Transfer langsung ke rekening RT (Rekening: 1803069724 A/n (Muhamad Riski Purwanto) - BNI)</div>
+          </div>
+        </label>
+
+        <label>
+          <input type="radio" name="paymentMethod" value="cash">
+          <div class="method-info">
+            <div class="method-name">💵 Tunai</div>
+            <div class="method-description">Bayar tunai langsung ke petugas RT atau Ketua RT</div>
+          </div>
+        </label>
+
+        <div id="qrisPreview" class="qris-card" style="margin-top:12px;">
+          <img id="qrisImage" src="../assets/images/qris.jpg" alt="QRIS" 
+               onerror="this.style.display='none'; document.getElementById('qrisFallback').style.display='block';">
+          <div id="qrisFallback" style="display:none; font-weight:600; color:#d32f2f;">QRIS belum diunggah. Taruh file di assets/images/qris.jpg</div>
+          <div class="qris-meta">
+            Nominal: <strong id="qrisNominal">-</strong><br>
+            Pindai dengan aplikasi pembayaran Anda (GoPay/OVO/DANA/LinkAja/Bank).
+          </div>
+          <div class="qris-meta" style="font-size:12px; color:#999;">
+            Jika gambar tidak muncul, pastikan file tersedia. Anda bisa menempatkan poster QRIS resmi di folder tersebut.
+          </div>
+        </div>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="button-group">
+        <button class="btn btn-primary" id="payButton" onclick="handlePayment()">
+          💳 Bayar (Simulasi)
+        </button>
+        <button class="btn" onclick="goBackToDashboard()">❌ Batal</button>
+      </div>
+
+      <!-- LOADING SPINNER -->
+      <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; color: #666;">Memproses pembayaran...</p>
+      </div>
+
+      <!-- SUCCESS RESULT -->
+      <div class="success-result" id="successResult">
+        <h3>✓ Pembayaran Berhasil!</h3>
+        <p style="margin: 15px 0;">Terima kasih telah membayar iuran. Bukti pembayaran Anda:</p>
+
+        <div class="receipt-section">
+          <div class="receipt-row">
+            <strong>No. Referensi</strong>
+            <span id="refNumber">-</span>
+          </div>
+          <div class="receipt-row">
+            <strong>Nominal</strong>
+            <span id="receiptNominal">-</span>
+          </div>
+          <div class="receipt-row">
+            <strong>Metode</strong>
+            <span id="receiptMethod">-</span>
+          </div>
+          <div class="receipt-row">
+            <strong>Waktu</strong>
+            <span id="receiptTime">-</span>
+          </div>
+          <div class="receipt-row">
+            <strong>Status</strong>
+            <span style="color: var(--warna-success); font-weight: bold;">✓ LUNAS</span>
+          </div>
+        </div>
+
+        <div class="receipt-important">
+          Iuran Anda sudah tercatat di sistem RT/RW. Pengurus RT dapat melihat data pembayaran Anda di dashboard mereka.
+        </div>
+
+        <p style="font-size: 12px; color: #666;">
+          Jika ingin cetak bukti pembayaran, gunakan fitur Print (Ctrl+P) dari browser Anda.
+        </p>
+
+        <button class="btn btn-primary" onclick="goBackToDashboard()" style="width: 100%; margin-top: 15px;">
+          ← Kembali ke Dashboard
+        </button>
+      </div>
+
+      <!-- FAILED RESULT -->
+      <div class="failed-result" id="failedResult">
+        <h3>✗ Pembayaran Gagal</h3>
+        <p style="margin: 15px 0;" id="failureMessage">Terjadi kesalahan saat memproses pembayaran.</p>
+
+        <div class="info-box" style="margin: 15px 0;">
+          <strong>Alasan Gagal:</strong><br>
+          Koneksi timeout atau sistem sedang mengalami gangguan. Silakan coba lagi dalam beberapa saat.
+        </div>
+
+        <div class="button-group">
+          <button class="btn btn-primary" onclick="resetPaymentForm()">🔄 Coba Lagi</button>
+          <button class="btn" onclick="goBackToDashboard()">← Kembali ke Dashboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 RT 05 Kelurahan Maju Jaya | Sistem Informasi Warga</p>
+  </footer>
+
+  <script>
+    let currentPaymentSession = null;
+
+    // Initialize page
+    window.addEventListener('load', function() {
+      initializePaymentPage();
+    });
+
+    function initializePaymentPage() {
+      // Get parameters from URL
+      const params = new URLSearchParams(window.location.search);
+      const nominal = params.get('nominal') || 50000;
+      const bulan = params.get('bulan') || new Date().toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+      const type = params.get('type') || 'iuran_bulanan';
+
+      // Get user session
+      const session = JSON.parse(localStorage.getItem('userSession') || '{}');
+
+      // Display data
+      document.getElementById('nominalDisplay').textContent = 'Rp ' + parseInt(nominal).toLocaleString('id-ID');
+      document.getElementById('bulanDisplay').textContent = bulan;
+      document.getElementById('wargaDisplay').textContent = session.name || 'Unknown';
+      document.getElementById('idDisplay').textContent = session.id || 'RW05/001';
+
+      // Init payment session (not completed yet)
+      currentPaymentSession = PaymentSystem.initPaymentSession({
+        nominal: parseInt(nominal),
+        bulan: bulan,
+        type: type,
+        warga: session.name,
+        description: `Iuran ${bulan}`,
+        userSession: JSON.stringify(session)
+      });
+    }
+
+    function handlePayment() {
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+      // Show loading
+      document.getElementById('paymentForm').style.display = 'none';
+      document.getElementById('loadingSpinner').style.display = 'block';
+
+      const fallbackSession = {
+        ...currentPaymentSession,
+        paymentMethod,
+        receiptNumber: 'SIM-' + Date.now(),
+        completedAt: Date.now(),
+        success: true
+      };
+
+      const processor = PaymentSystem && PaymentSystem.processPayment
+        ? PaymentSystem.processPayment(currentPaymentSession.id, paymentMethod)
+        : Promise.resolve({ success: true, session: fallbackSession });
+
+      processor.then(result => {
+        if (result.success) {
+          showSuccessResult(result.session || fallbackSession);
+        } else {
+          showFailedResult(result.message || 'Pembayaran gagal.');
+        }
+      }).catch(() => {
+        // Jika ada error, tetap tampilkan sukses simulasi agar ada feedback visual
+        showSuccessResult(fallbackSession);
+      });
+    }
+
+    function showSuccessResult(session) {
+      // Pastikan transaksi tercatat untuk update kas RT
+      try {
+        const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+        const alreadySaved = transactions.some(t => t.id === session.id || t.receiptNumber === session.receiptNumber);
+        if (!alreadySaved && PaymentSystem && PaymentSystem.saveTransaction) {
+          PaymentSystem.saveTransaction({
+            paymentSessionId: session.id || session.receiptNumber,
+            nominal: session.nominal,
+            type: session.type,
+            description: session.description,
+            paymentMethod: session.paymentMethod,
+            userSession: session.userSession || localStorage.getItem('userSession'),
+            completedAt: session.completedAt,
+            receiptNumber: session.receiptNumber
+          });
+        }
+      } catch (e) {
+        console.warn('Gagal menyimpan transaksi fallback', e);
+      }
+
+      // Simpan notifikasi untuk RT
+      savePaymentNotificationForRT(session);
+
+      // Tampilkan hasil di halaman ini
+      document.getElementById('successResult').style.display = 'block';
+      document.getElementById('refNumber').textContent = session.receiptNumber;
+      document.getElementById('receiptNominal').textContent = 'Rp ' + session.nominal.toLocaleString('id-ID');
+      document.getElementById('receiptMethod').textContent = PaymentSystem.PAYMENT_METHODS[session.paymentMethod]?.name || session.paymentMethod;
+      document.getElementById('receiptTime').textContent = new Date(session.completedAt).toLocaleString('id-ID');
+
+      // Simpan info keberhasilan untuk banner di dashboard warga (opsional)
+      localStorage.setItem('lastPaymentSuccess', JSON.stringify({
+        receipt: session.receiptNumber,
+        nominal: session.nominal,
+        bulan: session.bulan,
+        paymentMethod: session.paymentMethod,
+        completedAt: session.completedAt
+      }));
+
+      // Sembunyikan spinner, biarkan user pilih aksi lanjutan (kembali ke dashboard / cetak)
+      document.getElementById('loadingSpinner').style.display = 'none';
+    }
+
+    function showFailedResult(message) {
+      document.getElementById('failedResult').style.display = 'block';
+      document.getElementById('failureMessage').textContent = message;
+
+      showToast('✗ Pembayaran gagal. Silakan coba lagi.', 'error');
+    }
+
+    function resetPaymentForm() {
+      document.getElementById('failedResult').style.display = 'none';
+      document.getElementById('paymentForm').style.display = 'block';
+      document.querySelector('input[name="paymentMethod"]').checked = true;
+    }
+
+    function savePaymentNotificationForRT(session) {
+      const payload = {
+        id: session.id || ('PAY-' + Date.now()),
+        nominal: session.nominal,
+        bulan: session.bulan,
+        paymentMethod: session.paymentMethod,
+        completedAt: session.completedAt,
+        wargaName: session.warga,
+        createdAt: Date.now()
+      };
+      const list = JSON.parse(localStorage.getItem('paymentNotifications') || '[]');
+      list.push(payload);
+      localStorage.setItem('paymentNotifications', JSON.stringify(list.slice(-50))); // keep last 50
+    }
+
+    function syncQrisNominal() {
+      const params = new URLSearchParams(window.location.search);
+      const nominal = parseInt(params.get('nominal') || '0');
+      const display = document.getElementById('qrisNominal');
+      if (display && nominal) {
+        display.textContent = 'Rp ' + nominal.toLocaleString('id-ID');
+      }
+    }
+
+    // Show/hide QR preview based on selected method
+    const methodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+    methodRadios.forEach(r => {
+      r.addEventListener('change', () => {
+        const isQris = r.value === 'qris' && r.checked;
+        const preview = document.getElementById('qrisPreview');
+        if (preview) preview.style.display = isQris ? 'flex' : 'none';
+      });
+    });
+
+    function goBackToDashboard() {
+      window.location.href = 'dashboard-warga.html';
+    }
+
+    // Init nominal label for QRIS when page loads
+    syncQrisNominal();
+  </script>
+</body>
+</html>

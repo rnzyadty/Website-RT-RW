@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri Kegiatan - RT 05 RW 05</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/utils.js"></script>
+  <style>
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .gallery-item {
+      background: white;
+      border: 1px solid var(--warna-border);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .gallery-image {
+      background: linear-gradient(135deg, #E0E0E0, #F5F5F5);
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: #999;
+    }
+
+    .gallery-content {
+      padding: 15px;
+    }
+
+    .gallery-title {
+      font-weight: 600;
+      color: var(--warna-utama);
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .gallery-date {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .gallery-desc {
+      font-size: 13px;
+      color: #666;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <div class="header-title">
+        <h1>RT 05 KELURAHAN MAJU JAYA</h1>
+        <p>Galeri Kegiatan & Dokumentasi</p>
+      </div>
+      <div class="header-user">
+        <a href="beranda.html" style="color: white; text-decoration: none; font-weight: 600;">← Kembali</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- INTRO -->
+    <div class="content-wrapper">
+      <p style="color: #666; font-size: 15px;">
+        Dokumentasi kegiatan dan acara rutin RT 05 untuk menjaga kenangan indah bersama warga. 
+        Foto-foto ini merekam momen kebersamaan dan upaya bersama dalam membangun komunitas yang lebih baik.
+      </p>
+    </div>
+
+    <!-- GALERI TAHUN 2025 -->
+    <div class="content-wrapper">
+      <h2>📸 Kegiatan Tahun 2025</h2>
+
+      <div class="gallery-grid">
+        <!-- Undian Akhir Tahun -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Pengumuman Undian Akhir Tahun</div>
+            <div class="gallery-date">15 Januari 2025</div>
+            <div class="gallery-desc">
+              Acara pengumuman pemenang undian akhir tahun dengan hadiah total Rp 7 juta. Hadiah utama sepeda motor untuk Pak Bambang.
+            </div>
+          </div>
+        </div>
+
+        <!-- Rapat Bulanan Januari -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Rapat Bulanan RT (Januari)</div>
+            <div class="gallery-date">8 Januari 2025</div>
+            <div class="gallery-desc">
+              Rapat pembahasan laporan kas, rencana kegiatan, dan masukan dari warga. Dihadiri 30+ perwakilan keluarga.
+            </div>
+          </div>
+        </div>
+
+        <!-- Bersih-Bersih -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Kegiatan Bersih-Bersih Lingkungan</div>
+            <div class="gallery-date">1 Januari 2025</div>
+            <div class="gallery-desc">
+              Gotong-royong membersihkan jalan, selokan, dan area publik. Hasil: lingkungan lebih asri dan sehat.
+            </div>
+          </div>
+        </div>
+
+        <!-- Penanaman Pohon -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Penanaman Pohon Penghijauan</div>
+            <div class="gallery-date">28 Desember 2024</div>
+            <div class="gallery-desc">
+              Kegiatan penghijauan dengan menanam 50 pohon di sekitar area publik RT 05. Target: RT yang lebih asri.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALERI TAHUN 2024 -->
+    <div class="content-wrapper">
+      <h2>📸 Kegiatan Tahun 2024</h2>
+
+      <div class="gallery-grid">
+        <!-- Rapat Akhir Tahun -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Rapat Akhir Tahun</div>
+            <div class="gallery-date">10 Desember 2024</div>
+            <div class="gallery-desc">
+              Rapat umum akhir tahun membahas pencapaian dan rencana tahun depan. Suasana hangat dan penuh antusiasme.
+            </div>
+          </div>
+        </div>
+
+        <!-- Persiapan Undian -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Persiapan Undian Akhir Tahun</div>
+            <div class="gallery-date">1 Desember 2024</div>
+            <div class="gallery-desc">
+              Pengurus RT mempersiapkan hadiah-hadiah untuk undian akhir tahun. Semangat berbagi kebaikan kepada warga.
+            </div>
+          </div>
+        </div>
+
+        <!-- Perbaikan Jalan -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Perbaikan Jalan Gang Melati</div>
+            <div class="gallery-date">15 November 2024</div>
+            <div class="gallery-desc">
+              Renovasi jalan yang rusak dengan partisipasi warga. Hasilnya: jalan lebih aman dan nyaman dilalui.
+            </div>
+          </div>
+        </div>
+
+        <!-- Rapat Rutin -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Rapat Bulanan (November)</div>
+            <div class="gallery-date">8 November 2024</div>
+            <div class="gallery-desc">
+              Diskusi bulanan tentang kesehatan lingkungan dan keamanan warga. Pembahasan solusi bersama.
+            </div>
+          </div>
+        </div>
+
+        <!-- Pelatihan -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Pelatihan Pertolongan Pertama</div>
+            <div class="gallery-date">20 Oktober 2024</div>
+            <div class="gallery-desc">
+              Sosialisasi dan pelatihan pertolongan pertama dari tim kesehatan kelurahan untuk warga RT 05.
+            </div>
+          </div>
+        </div>
+
+        <!-- Kebersamaan -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Acara Kebersamaan Warga</div>
+            <div class="gallery-date">5 Oktober 2024</div>
+            <div class="gallery-desc">
+              Kegiatan sosial untuk mempererat hubungan antar warga, mencakup games dan hiburan keluarga.
+            </div>
+          </div>
+        </div>
+
+        <!-- Pemeriksaan Kesehatan -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Posyandu & Pemeriksaan Kesehatan</div>
+            <div class="gallery-date">15 September 2024</div>
+            <div class="gallery-desc">
+              Kegiatan posyandu rutin dengan pengecekan kesehatan ibu dan bayi. Dihadiri tenaga kesehatan kelurahan.
+            </div>
+          </div>
+        </div>
+
+        <!-- Bersih Pantai -->
+        <div class="gallery-item">
+          <div class="gallery-image">📸</div>
+          <div class="gallery-content">
+            <div class="gallery-title">Kegiatan Bersih Lingkungan (Agustus)</div>
+            <div class="gallery-date">10 Agustus 2024</div>
+            <div class="gallery-desc">
+              Pembersihan rutin area publik dengan partisipasi anak-anak dan orang tua. Gotong-royong yang menyenangkan.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATISTIK KEGIATAN -->
+    <div class="content-wrapper">
+      <h2>📊 Statistik Kegiatan RT 05</h2>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        <div style="background: var(--warna-light); border: 1px solid var(--warna-border); border-radius: 4px; padding: 20px; text-align: center;">
+          <div style="font-size: 36px; color: var(--warna-utama); font-weight: 700;">24</div>
+          <div style="color: var(--warna-utama); font-weight: 600; margin-top: 10px;">Kegiatan Tahun 2024</div>
+        </div>
+
+        <div style="background: var(--warna-light); border: 1px solid var(--warna-border); border-radius: 4px; padding: 20px; text-align: center;">
+          <div style="font-size: 36px; color: var(--warna-utama); font-weight: 700;">12</div>
+          <div style="color: var(--warna-utama); font-weight: 600; margin-top: 10px;">Rapat Rutin</div>
+        </div>
+
+        <div style="background: var(--warna-light); border: 1px solid var(--warna-border); border-radius: 4px; padding: 20px; text-align: center;">
+          <div style="font-size: 36px; color: var(--warna-utama); font-weight: 700;">8</div>
+          <div style="color: var(--warna-utama); font-weight: 600; margin-top: 10px;">Kegiatan Sosial</div>
+        </div>
+
+        <div style="background: var(--warna-light); border: 1px solid var(--warna-border); border-radius: 4px; padding: 20px; text-align: center;">
+          <div style="font-size: 36px; color: var(--warna-utama); font-weight: 700;">4</div>
+          <div style="color: var(--warna-utama); font-weight: 600; margin-top: 10px;">Proyek Infrastruktur</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KIRIM FOTO -->
+    <div class="content-wrapper" style="background: var(--warna-light); text-align: center;">
+      <h3 style="color: var(--warna-utama);">Punya Foto Kegiatan RT?</h3>
+      <p style="color: #666;">Bagikan foto kegiatan Anda ke pengurus RT untuk ditambahkan di galeri ini!</p>
+      <button class="btn" onclick="handleUploadPhoto()">📧 Kirim Foto</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 RT 05 RW 05 Kelurahan Maju Jaya</p>
+  </footer>
+
+  <script>
+    function handleUploadPhoto() {
+      showModal({
+        title: 'Kirim Foto Kegiatan',
+        message: `<p>Untuk mengirim foto kegiatan RT, silakan hubungi:</p>
+                  <div style="text-align: left; margin-top: 15px; font-size: 13px;">
+                    <p><strong>📱 WhatsApp/Telepon:</strong> Ketua RT Rahmat (0812-3456-7890)</p>
+                    <p><strong>📧 Email:</strong> rt05@kelurahanmajujaya.id</p>
+                    <p><strong>🏠 Datang langsung:</strong> Kantor RT, Jalan Mawar No. 5</p>
+                  </div>`,
+        type: 'info',
+        buttons: [{ text: 'OK' }]
+      });
+    }
+  </script>
+</body>
+</html>

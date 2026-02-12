@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pemenang Undian - Sistem Informasi RT/RW</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="../assets/dashboard.css">
+  <script src="../assets/utils.js"></script>
+  <script src="../assets/data.js"></script>
+  <style>
+    .winner-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .prize-section {
+      margin: 30px 0;
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .prize-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid var(--warna-utama);
+    }
+
+    .prize-icon {
+      font-size: 48px;
+      margin-right: 20px;
+    }
+
+    .prize-title {
+      flex: 1;
+    }
+
+    .prize-title h3 {
+      margin: 0;
+      color: var(--warna-utama);
+      font-size: 24px;
+    }
+
+    .prize-title p {
+      margin: 5px 0 0 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .winner-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .winner-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s;
+    }
+
+    .winner-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .winner-card.rank-1 {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      grid-column: 1 / -1;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .winner-card.rank-2,
+    .winner-card.rank-3 {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .winner-rank {
+      font-size: 12px;
+      text-transform: uppercase;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .winner-name {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .winner-location {
+      font-size: 12px;
+      opacity: 0.95;
+    }
+
+    .winner-date {
+      font-size: 11px;
+      margin-top: 10px;
+      opacity: 0.8;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      padding-top: 10px;
+    }
+
+    .back-button {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .info-section {
+      background: #E3F2FD;
+      border-left: 4px solid var(--warna-info);
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 3px;
+    }
+
+    .no-winner-badge {
+      background: white;
+      border: 2px dashed #DDD;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      color: #999;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <div class="header-title">
+        <h1>👑 Pemenang Undian Akhir Tahun</h1>
+        <p>RT 05 - Kelurahan Maju Jaya | Tahun 2024/2025</p>
+      </div>
+      <div class="header-user">
+        <button class="btn-logout" onclick="window.history.back()">← Kembali</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="winner-container">
+      <!-- INFO -->
+      <div class="info-section">
+        <strong>ℹ️ Informasi Undian:</strong><br>
+        Undian dilaksanakan pada tanggal 15 Januari 2025 dengan disaksikan oleh pengurus RT dan RW. Berikut adalah daftar lengkap pemenang undian akhir tahun.
+      </div>
+
+      <!-- HADIAH UTAMA -->
+      <div class="prize-section">
+        <div class="prize-header">
+          <div class="prize-icon">🏆</div>
+          <div class="prize-title">
+            <h3>Hadiah Utama</h3>
+            <p>Sepeda Motor Honda Beat FI</p>
+          </div>
+        </div>
+        <div class="winner-list">
+          <div class="winner-card rank-1">
+            <div class="winner-rank">🥇 PEMENANG 1</div>
+            <div class="winner-name">Budi Santoso</div>
+            <div class="winner-location">RT 05 / KK No. 123456</div>
+            <div class="winner-date">📅 Diumumkan: 15 Januari 2025</div>
+          </div>
+        </div>
+        <p style="text-align: center; margin-top: 15px; color: #666; font-size: 13px;">
+          Hadiah dapat diambil di kantor RW pada hari Sabtu, 18 Januari 2025 pukul 09:00
+        </p>
+      </div>
+
+      <!-- HADIAH 2 -->
+      <div class="prize-section">
+        <div class="prize-header">
+          <div class="prize-icon">📺</div>
+          <div class="prize-title">
+            <h3>Hadiah 2</h3>
+            <p>Televisi 32 Inch (2 pemenang)</p>
+          </div>
+        </div>
+        <div class="winner-list">
+          <div class="winner-card rank-2">
+            <div class="winner-rank">🥈 PEMENANG 1</div>
+            <div class="winner-name">Siti Nurhaliza</div>
+            <div class="winner-location">RT 05 / KK No. 654321</div>
+            <div class="winner-date">📅 Diumumkan: 15 Januari 2025</div>
+          </div>
+          <div class="winner-card rank-3">
+            <div class="winner-rank">🥉 PEMENANG 2</div>
+            <div class="winner-name">Ahmad Gunawan</div>
+            <div class="winner-location">RT 05 / KK No. 789012</div>
+            <div class="winner-date">📅 Diumumkan: 15 Januari 2025</div>
+          </div>
+        </div>
+        <p style="text-align: center; margin-top: 15px; color: #666; font-size: 13px;">
+          Hadiah dapat diambil di kantor RW pada hari Sabtu, 18 Januari 2025 pukul 09:00
+        </p>
+      </div>
+
+      <!-- HADIAH 3 -->
+      <div class="prize-section">
+        <div class="prize-header">
+          <div class="prize-icon">🎁</div>
+          <div class="prize-title">
+            <h3>Hadiah 3</h3>
+            <p>Voucher Beras 10 kg (10 pemenang)</p>
+          </div>
+        </div>
+        <div style="background: #F5F5F5; padding: 15px; border-radius: 5px; margin: 15px 0;">
+          <p style="margin: 0; font-size: 13px;">
+            <strong>Daftar 10 pemenang:</strong><br>
+            Dipublikasikan di pengumuman RT atau WhatsApp group RT 05. Silakan hubungi pengurus RT untuk mengkonfirmasi apakah Anda termasuk pemenang hadiah ini.
+          </p>
+        </div>
+        <p style="text-align: center; margin-top: 15px; color: #666; font-size: 13px;">
+          Silakan hubungi Pengurus RT: Rahmat (0812-3456-7890)
+        </p>
+      </div>
+
+      <!-- STATUS ANDA -->
+      <div class="prize-section">
+        <h3 style="color: var(--warna-utama); margin-top: 0;">📋 Status Anda</h3>
+        <div class="no-winner-badge" id="statusUser">
+          Memuat data...
+        </div>
+      </div>
+
+      <!-- SYARAT & KETENTUAN -->
+      <div class="prize-section">
+        <h3 style="color: var(--warna-utama); margin-top: 0;">📝 Syarat & Ketentuan</h3>
+        <ul style="font-size: 13px; color: #666; line-height: 1.8;">
+          <li>Undian terbuka untuk semua warga yang telah membayar iuran hingga bulan Januari 2025</li>
+          <li>Setiap Kepala Keluarga (KK) berhak mendapat 1 kupon undian otomatis</li>
+          <li>Pengambilan hadiah harus menunjukkan identitas asli (KTP/KK)</li>
+          <li>Hadiah tidak dapat ditukar dengan uang atau hadiah lain</li>
+          <li>Hadiah yang tidak diambil dalam 1 bulan dianggap dilepaskan dan akan disumbangkan</li>
+        </ul>
+      </div>
+
+      <!-- BACK BUTTON -->
+      <div class="back-button">
+        <button class="btn btn-primary" onclick="window.location.href='dashboard-warga.html'">
+          ← Kembali ke Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 RT 05 Kelurahan Maju Jaya | Sistem Informasi Warga</p>
+  </footer>
+
+  <script>
+    window.addEventListener('load', function() {
+      const user = JSON.parse(localStorage.getItem('userSession') || '{}');
+      const statusDiv = document.getElementById('statusUser');
+
+      // Check if user is a winner
+      const winners = ['Budi Santoso', 'Siti Nurhaliza', 'Ahmad Gunawan'];
+      
+      if (winners.includes(user.name)) {
+        statusDiv.innerHTML = `
+          <div style="color: var(--warna-success); font-weight: bold;">
+            🎉 Selamat! Anda adalah pemenang undian akhir tahun!<br>
+            <span style="font-size: 13px; color: #666;">Silakan hubungi pengurus RT untuk mengambil hadiah Anda.</span>
+          </div>
+        `;
+        statusDiv.style.background = '#E8F5E9';
+        statusDiv.style.borderColor = 'var(--warna-success)';
+      } else {
+        statusDiv.innerHTML = `
+          <div>
+            Anda tidak termasuk pemenang undian kali ini.<br>
+            <span style="font-size: 13px; color: #999;">Terus bayar iuran tepat waktu untuk mengikuti undian berikutnya!</span>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

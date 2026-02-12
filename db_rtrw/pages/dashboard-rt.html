@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard RT - Sistem Informasi RT/RW</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="../assets/dashboard.css">
+  <script src="../assets/utils.js"></script>
+  <script src="../assets/data.js"></script>
+  <script src="../assets/payment-system.js"></script>
+  <script src="../assets/dashboard-system.js"></script>
+  <script src="../assets/dashboard-header.js"></script>
+  <script src="../assets/rt-dashboard.js"></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="app-header" data-role="rt" data-rt="05">
+    <div class="container app-header__inner">
+      <div class="app-header__left">
+        <nav class="app-breadcrumb" aria-label="breadcrumb">
+          <a href="../index.php">Beranda</a>
+          <span aria-hidden="true">•</span>
+          <span>Dashboard RT</span>
+        </nav>
+        <div class="app-header__titles">
+          <div class="app-header__title" id="pageTitle">Dashboard Ketua RT 05</div>
+          <div class="app-header__subtitle" id="pageSubtitle">Rekap & layanan warga RT</div>
+        </div>
+      </div>
+
+      <div class="app-header__right">
+        <div class="user-actions-inline" aria-label="Tindakan pengguna" style="margin-left:auto;">
+          <button class="btn btn-small" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- HARI INI - PRIORITAS -->
+    <div class="section-block">
+      <div class="section-header">HARI INI (25 JANUARI 2025) - TUGAS PRIORITAS</div>
+
+      <div class="priority-box">
+        <h4>☑️ Daftar Tugas Harian</h4>
+        <ul class="checkbox-list">
+          <li>
+            <input type="checkbox" id="task1">
+            <label for="task1">Validasi 3 permohonan surat dari warga</label>
+          </li>
+          <li>
+            <input type="checkbox" id="task2">
+            <label for="task2">Input laporan kas RT (perbaikan jalan)</label>
+          </li>
+          <li>
+            <input type="checkbox" id="task3">
+            <label for="task3">Hubungi Dina (tanggungan iuran 3 bulan)</label>
+          </li>
+          <li>
+            <input type="checkbox" id="task4">
+            <label for="task4">Verifikasi data warga baru (keluarga Pak Ahmad)</label>
+          </li>
+          <li>
+            <input type="checkbox" id="task5">
+            <label for="task5">Siapkan rapat RT besok malam (daftar hadir, topik)</label>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PERMOHONAN SURAT PENDING -->
+    <div class="section-block">
+      <div class="section-header">PERMOHONAN SURAT - MENUNGGU VALIDASI (3 PENDING)</div>
+
+      <!-- Permohonan 1 -->
+      <div class="permohonan-item pending">
+        <div class="permohonan-header">1. Budi Santoso - Surat Keterangan Usaha</div>
+        <div class="permohonan-meta">
+          📝 Diajukan: 15 Januari 2025 | 🔄 Status: Tunggu Validasi
+        </div>
+        <p style="margin: 10px 0; font-size: 14px;">
+          <strong>Tujuan:</strong> Izin mendirikan warung di rumah<br>
+          <strong>Alamat:</strong> Jl. Mawar No. 12 RT 05<br>
+          <strong>No. KK:</strong> 3271234567
+        </p>
+        <div class="permohonan-actions">
+          <button class="btn btn-success" onclick="handlePersetujuan('Budi Santoso', 'Surat Keterangan Usaha')">✓ Setujui</button>
+          <button class="btn btn-danger" onclick="handlePenolakan('Budi Santoso')">✗ Tolak</button>
+          <button class="btn" onclick="handleMoreInfo('Budi Santoso')">? Lebih Info</button>
+        </div>
+      </div>
+
+      <!-- Permohonan 2 -->
+      <div class="permohonan-item pending">
+        <div class="permohonan-header">2. Siti Nurhaliza - Surat Domisili</div>
+        <div class="permohonan-meta">
+          📝 Diajukan: 18 Januari 2025 | 🔄 Status: Tunggu Validasi
+        </div>
+        <p style="margin: 10px 0; font-size: 14px;">
+          <strong>Tujuan:</strong> Surat keterangan tempat tinggal untuk KTP<br>
+          <strong>Alamat:</strong> Jl. Melati No. 5 RT 05<br>
+          <strong>No. KK:</strong> 3271234568
+        </p>
+        <div class="permohonan-actions">
+          <button class="btn btn-success" onclick="handlePersetujuan('Siti Nurhaliza', 'Surat Domisili')">✓ Setujui</button>
+          <button class="btn btn-danger" onclick="handlePenolakan('Siti Nurhaliza')">✗ Tolak</button>
+          <button class="btn" onclick="handleMoreInfo('Siti Nurhaliza')">? Lebih Info</button>
+        </div>
+      </div>
+
+      <!-- Permohonan 3 -->
+      <div class="permohonan-item pending">
+        <div class="permohonan-header">3. Ahmad Gunawan - Surat Izin Usaha</div>
+        <div class="permohonan-meta">
+          📝 Diajukan: 20 Januari 2025 | 🔄 Status: Tunggu Validasi
+        </div>
+        <p style="margin: 10px 0; font-size: 14px;">
+          <strong>Tujuan:</strong> Pembukaan toko elektronik<br>
+          <strong>Alamat:</strong> Jl. Raya No. 45 RT 05 / RW 05<br>
+          <strong>No. KK:</strong> 3271234569
+        </p>
+        <div class="permohonan-actions">
+          <button class="btn btn-success" onclick="handlePersetujuan('Ahmad Gunawan', 'Surat Izin Usaha')">✓ Setujui</button>
+          <button class="btn btn-danger" onclick="handlePenolakan('Ahmad Gunawan')">✗ Tolak</button>
+          <button class="btn" onclick="handleMoreInfo('Ahmad Gunawan')">? Lebih Info</button>
+        </div>
+      </div>
+
+      <div class="info-box mt-20">
+        <strong>📌 Catatan Proses:</strong>
+        Permohonan yang sudah disetujui RT akan dikirim ke RW untuk validasi final sebelum diterbitkan.
+      </div>
+    </div>
+
+    <!-- PEMBAYARAN IURAN MASUK -->
+    <div class="section-block">
+      <div class="section-header">PEMBAYARAN IURAN MASUK</div>
+      <p style="color:#666; font-size:14px; margin-bottom:12px;">Ringkasan pembayaran terbaru yang dilakukan warga.</p>
+      <div id="payment-notify" class="card"></div>
+    </div>
+
+    <!-- ADUAN / KELUHAN WARGA -->
+    <div class="section-block">
+      <div class="section-header">ADUAN / KELUHAN WARGA (5 TOTAL)</div>
+
+      <!-- Aduan 1: Urgent, baru -->
+      <div class="aduan-item urgent">
+        <div style="display: flex; justify-content: space-between;">
+          <div>
+            <div class="aduan-title">🆕 Banjir di Gang Murai</div>
+            <div class="aduan-desc">"Setiap hujan, gang mawar selalu banjir karena saluran air macet."</div>
+            <div style="font-size: 13px; color: #666; margin-top: 5px;">
+              <strong>Dari:</strong> Dina Nurhayati | <strong>Tgl:</strong> 24 Januari 2025
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="status-badge status-pending">⚠️ PERLU FOLLOW UP</span>
+          </div>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+          <button class="btn btn-small" onclick="handleAduanAction('Banjir', 'Perbaiki')">🔧 Tandai Ditindak</button>
+          <button class="btn btn-small" onclick="handleAduanAction('Banjir', 'Lapor RW')">📢 Lapor ke RW</button>
+          <button class="btn btn-small" onclick="handleAduanAction('Banjir', 'Hubungi')">📞 Hubungi Warga</button>
+        </div>
+      </div>
+
+      <!-- Aduan 2: In Progress -->
+      <div class="aduan-item">
+        <div style="display: flex; justify-content: space-between;">
+          <div>
+            <div class="aduan-title">Jalan Berlubang Depan Toko Haji Joni</div>
+            <div class="aduan-desc">"Sudah berlubang besar, berbahaya bagi motor dan mobil."</div>
+            <div style="font-size: 13px; color: #666; margin-top: 5px;">
+              <strong>Dari:</strong> Pak Bambang | <strong>Tgl:</strong> 20 Januari 2025
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="status-badge status-approved">✓ DITINDAK LANJUTI</span>
+          </div>
+        </div>
+        <div style="margin-top: 10px; padding: 10px; background: #E8F5E9; border-radius: 3px; font-size: 13px;">
+          <strong>Tindakan:</strong> Sudah dikonfirmasi. Akan dilaporkan ke RW untuk renovasi jalan.
+        </div>
+      </div>
+
+      <!-- Aduan 3 -->
+      <div class="aduan-item">
+        <div style="display: flex; justify-content: space-between;">
+          <div>
+            <div class="aduan-title">Lampu Jalan Mati (4 Titik)</div>
+            <div class="aduan-desc">"Lampu di depan rumah Pak Suryanto dan tiga tempat lain sudah padam."</div>
+            <div style="font-size: 13px; color: #666; margin-top: 5px;">
+              <strong>Dari:</strong> Siti Rahayu | <strong>Tgl:</strong> 18 Januari 2025
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span class="status-badge status-approved">✓ SELESAI</span>
+          </div>
+        </div>
+        <div style="margin-top: 10px; padding: 10px; background: #E8F5E9; border-radius: 3px; font-size: 13px;">
+          <strong>Tindakan:</strong> Sudah perbaiki (15 Jan). Teknisi datang dan mengganti lampu.
+        </div>
+      </div>
+
+      <button class="btn mt-20" onclick="window.location.href='#aduan-form'">➕ Lihat Semua Aduan</button>
+
+      <!-- Aduan dinamis dari warga (localStorage) -->
+      <div id="aduan-dynamic" class="mt-20"></div>
+    </div>
+
+    <!-- BUKU KAS RT -->
+    <div class="section-block">
+      <div class="section-header">BUKU KAS RT - JANUARI 2025</div>
+
+      <div class="kas-summary">
+        <div class="kas-row">
+          <div class="kas-label">Saldo Awal (1 Januari):</div>
+          <div class="kas-amount" style="color: var(--warna-info);">Rp 2.500.000</div>
+        </div>
+      </div>
+
+      <div style="margin: 20px 0;">
+        <button class="btn btn-primary btn-small" onclick="showKasForm('pemasukan')">➕ Input Pemasukan Baru</button>
+        <button class="btn btn-small" onclick="showKasForm('pengeluaran')" style="margin-left: 10px;">➖ Input Pengeluaran Baru</button>
+      </div>
+
+      <div id="kas-dynamic" class="mt-10"></div>
+
+      <div style="margin-top: 20px;">
+        <strong style="display: block; margin-bottom: 15px; color: var(--warna-utama);">📥 PEMASUKAN:</strong>
+
+        <div class="kas-summary">
+          <div class="kas-row">
+            <div>20 Januari - Iuran Rutin</div>
+            <div class="kas-amount positive">+ Rp 850.000</div>
+          </div>
+          <div class="kas-row" style="font-size: 12px; color: #999;">
+            <div>(17 KK × Rp 50.000)</div>
+          </div>
+
+          <div class="kas-row">
+            <div>22 Januari - Iuran Tambahan (Perbaikan Jalan)</div>
+            <div class="kas-amount positive">+ Rp 400.000</div>
+          </div>
+          <div class="kas-row" style="font-size: 12px; color: #999;">
+            <div>(20 KK × Rp 20.000)</div>
+          </div>
+
+          <div class="kas-row">
+            <div><strong>Total Pemasukan:</strong></div>
+            <div class="kas-amount positive" style="font-weight: 600;">+ Rp 1.250.000</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <strong style="display: block; margin-bottom: 15px; color: var(--warna-utama);">📤 PENGELUARAN:</strong>
+
+        <div class="kas-summary">
+          <div class="kas-row">
+            <div>15 Januari - Hadiah Undian Akhir Tahun</div>
+            <div class="kas-amount negative">- Rp 500.000</div>
+          </div>
+
+          <div class="kas-row">
+            <div>22 Januari - Beli Kabel & Material Perbaikan Jalan</div>
+            <div class="kas-amount negative">- Rp 150.000</div>
+          </div>
+
+          <div class="kas-row">
+            <div>23 Januari - Biaya Pembantu Ketua RT (Honor)</div>
+            <div class="kas-amount negative">- Rp 50.000</div>
+          </div>
+
+          <div class="kas-row">
+            <div><strong>Total Pengeluaran:</strong></div>
+            <div class="kas-amount negative" style="font-weight: 600;">- Rp 700.000</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kas-summary" style="margin-top: 20px; background: #E8F5E9; border-left: 4px solid var(--warna-success);">
+        <div class="kas-row">
+          <div style="font-weight: 700; color: var(--warna-success);">SALDO AKHIR (25 Januari):</div>
+          <div class="kas-amount positive" style="font-weight: 700; font-size: 18px;">Rp 3.050.000</div>
+        </div>
+      </div>
+
+      <div class="info-box mt-20" style="background: #FFF8E1; border-left-color: var(--warna-warning);">
+        <strong>💡 Catatan:</strong> Pastikan setiap transaksi kas dicatat dengan rapi. Laporan kas akan dikirim ke RW setiap akhir bulan.
+      </div>
+    </div>
+
+    <!-- DATA WARGA RT 05 -->
+    <div class="section-block">
+      <div class="section-header">DATA WARGA RT 05</div>
+
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-card-value">45</div>
+          <div class="summary-card-label">Total KK</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value">156</div>
+          <div class="summary-card-label">Total Jiwa</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value">45</div>
+          <div class="summary-card-label">Kepala Keluarga</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value">42</div>
+          <div class="summary-card-label">KK Pembayar Iuran</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button class="btn btn-primary btn-small">👥 Lihat Daftar Warga Lengkap</button>
+        <button class="btn btn-small" style="margin-left: 10px;">📋 Cetak Data (PDF)</button>
+        <button class="btn btn-small" style="margin-left: 10px;">➕ Tambah Warga Baru</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 RT 05 Kelurahan Maju Jaya | Dashboard Pengurus RT</p>
+    <p style="font-size: 12px; margin-top: 10px;">Hubungi RW: WhatsApp 0812-9876-5432</p>
+  </footer>
+
+  <script>
+    function loadUserSession() {
+      const session = localStorage.getItem('userSession');
+      if (!session) {
+        window.location.href = '../index.php';
+        return;
+      }
+
+      try {
+        const user = JSON.parse(session);
+        if (user.role !== 'rt') {
+          window.location.href = '../index.php';
+          return;
+        }
+
+        const nameEl = document.getElementById('rtName');
+        if (nameEl) nameEl.textContent = user.name || 'Pengurus RT';
+
+        configureHeaderByRole(user);
+        updateNotificationBadge();
+        initPrimaryCta(user.role);
+      } catch (e) {
+        console.error('Error loading session:', e);
+        window.location.href = '../index.php';
+      }
+    }
+
+    function handleLogout() {
+      showConfirm({
+        title: 'Logout',
+        message: 'Apakah Anda yakin ingin logout?',
+        confirmText: 'Ya, Logout',
+        cancelText: 'Batal',
+        onConfirm: () => {
+          localStorage.removeItem('userSession');
+          window.location.href = '../index.php';
+        }
+      });
+    }
+
+    function configureHeaderByRole(user = {}) {
+      const header = document.querySelector('.app-header');
+      if (!header) return;
+
+      const role = user.role || header.dataset.role || 'rt';
+      const rtNumber = header.dataset.rt || (user.id && (user.id.match(/\d+/) || [])[0]) || '';
+
+      const pageTitle = document.getElementById('pageTitle');
+      const pageSubtitle = document.getElementById('pageSubtitle');
+      const roleBadge = document.getElementById('roleBadge');
+      const ctaLabel = document.getElementById('ctaLabel');
+      const ctaIcon = document.getElementById('ctaIcon');
+      const avatar = document.getElementById('rtAvatar');
+
+      const initials = (user.name || 'RT').split(' ').map(n => n[0]).filter(Boolean).join('').substring(0, 2).toUpperCase();
+      if (avatar) avatar.textContent = initials || 'RT';
+
+      if (roleBadge) {
+        roleBadge.textContent = role.toUpperCase();
+        roleBadge.classList.remove('badge-role--rw', 'badge-role--rt', 'badge-role--warga');
+        roleBadge.classList.add(role === 'rw' ? 'badge-role--rw' : role === 'warga' ? 'badge-role--warga' : 'badge-role--rt');
+      }
+
+      if (pageTitle) pageTitle.textContent = `Dashboard Ketua RT ${rtNumber || ''}`.trim();
+      if (pageSubtitle) pageSubtitle.textContent = 'Rekap & layanan warga RT';
+      if (ctaLabel) ctaLabel.textContent = 'Buat Surat / Validasi';
+      if (ctaIcon) ctaIcon.textContent = '📝';
+    }
+
+    function updateNotificationBadge() {
+      const notifEl = document.getElementById('notifCount');
+      if (!notifEl) return;
+      const aduanList = JSON.parse(localStorage.getItem('aduanList') || '[]');
+      const total = aduanList.length;
+      notifEl.textContent = total > 9 ? '9+' : total;
+      notifEl.style.display = total ? 'inline-flex' : 'none';
+    }
+
+    function initUserMenu() {
+      const toggle = document.getElementById('userMenuToggle');
+      const dropdown = document.getElementById('userDropdown');
+      if (!toggle || !dropdown) return;
+
+      const closeMenu = () => {
+        dropdown.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      };
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
+
+    function initProfileMenuItem() {
+      const profileBtn = document.getElementById('profileMenuItem');
+      if (!profileBtn) return;
+      profileBtn.onclick = () => {
+        window.location.href = 'profil.html';
+      };
+    }
+
+    function initPrimaryCta(role = 'rt') {
+      const btn = document.getElementById('primaryCta');
+      if (!btn) return;
+
+      btn.onclick = () => {
+        if (role === 'rt') {
+          showToast('Buka form validasi atau pembuatan surat RT', 'info');
+        } else if (role === 'rw') {
+          showToast('Arahkan ke rekap RW', 'info');
+        } else {
+          showToast('Ajukan layanan sebagai warga', 'info');
+        }
+      };
+    }
+
+    function handlePersetujuan(nama, jenis) {
+      showConfirm({
+        title: 'Setujui Permohonan',
+        message: `Setujui permohonan <strong>${nama}</strong> untuk <strong>${jenis}</strong>?<br><br>
+                  <small>Surat akan dikirim ke RW untuk validasi final sebelum diterbitkan.</small>`,
+        confirmText: '✓ Setujui',
+        cancelText: 'Batal',
+        onConfirm: () => {
+          showModal({
+            title: 'Permohonan Disetujui',
+            message: `Permohonan dari <strong>${nama}</strong> telah disetujui.<br><br>
+                      <small>Surat akan diteruskan ke RW untuk validasi final dalam 1-2 hari kerja.</small>`,
+            type: 'success',
+            buttons: [{ text: 'OK' }]
+          });
+        }
+      });
+    }
+
+    function handlePenolakan(nama) {
+      showModal({
+        title: 'Tolak Permohonan',
+        message: `<div style="text-align: left;">
+                    <p>Alasan penolakan permohonan dari <strong>${nama}</strong>:</p>
+                    <textarea id="reason-input" placeholder="Masukkan alasan penolakan..." 
+                              style="width: 100%; min-height: 80px; padding: 8px; border-radius: 6px; border: 1px solid #ddd; font-family: inherit;">
+                    </textarea>
+                  </div>`,
+        type: 'warning',
+        buttons: [
+          { 
+            text: '❌ Tolak dengan Alasan',
+            action: () => {
+              const reason = document.getElementById('reason-input')?.value.trim();
+              if (!reason) {
+                showToast('Silakan masukkan alasan penolakan', 'warning');
+                return;
+              }
+              showModal({
+                title: 'Permohonan Ditolak',
+                message: `Permohonan dari <strong>${nama}</strong> telah ditolak.<br><br>
+                          <strong>Alasan:</strong> ${reason}<br><br>
+                          <small>Warga akan mendapat notifikasi penolakan.</small>`,
+                type: 'info',
+                buttons: [{ text: 'OK' }]
+              });
+            }
+          },
+          { text: 'Batal' }
+        ]
+      });
+    }
+
+    function handleMoreInfo(nama) {
+      showModal({
+        title: 'Hubungi Warga',
+        message: `<div style="text-align: left;">
+                    <p>Hubungi <strong>${nama}</strong> untuk informasi lebih lanjut:</p>
+                    <p style="margin-top: 15px; font-size: 13px;">
+                      <strong>✓ WhatsApp:</strong> Akan dihubungi sesuai nomor terdaftar<br>
+                      <strong>✓ Datang Langsung:</strong> Ke rumah yang terdaftar di sistem<br>
+                      <strong>✓ Telepon:</strong> Sesuai nomor kontak warga
+                    </p>
+                  </div>`,
+        type: 'info',
+        buttons: [{ text: 'OK' }]
+      });
+    }
+
+    function handleAduanAction(aduanRef, action) {
+      const aduanList = JSON.parse(localStorage.getItem('aduanList') || '[]');
+      const aduanData = aduanList.find(a => a.id === aduanRef);
+      const aduanTitle = aduanData?.title || aduanRef;
+
+      if (action === 'Lapor RW') {
+        // Simpan aduan terusan untuk dashboard RW
+        const forwarded = {
+          id: aduanData?.id || 'RT-FWD-' + Date.now(),
+          title: aduanTitle || 'Aduan Warga',
+          description: aduanData?.description || 'Belum ada deskripsi',
+          category: aduanData?.category || 'Umum',
+          submittedAt: aduanData?.submittedAt || new Date().toLocaleString('id-ID'),
+          submittedBy: aduanData?.submittedBy || 'Warga',
+          wargaId: aduanData?.wargaId || '-'
+        };
+
+        const rtName = document.getElementById('rtName')?.textContent || 'Pengurus RT';
+        forwarded.forwardedBy = rtName;
+        forwarded.forwardedAt = new Date().toLocaleString('id-ID');
+
+        let aduanRWList = JSON.parse(localStorage.getItem('aduanRWList') || '[]');
+        const exists = aduanRWList.some(item => item.id === forwarded.id);
+        if (!exists) {
+          aduanRWList.push(forwarded);
+          localStorage.setItem('aduanRWList', JSON.stringify(aduanRWList));
+        }
+      }
+
+      const actions = {
+        'Perbaiki': { msg: `Aduan "${aduanTitle}" telah ditandai sebagai sedang ditangani.`, type: 'info' },
+        'Lapor RW': { msg: `Aduan "${aduanTitle}" telah dilaporkan ke RW.`, type: 'info' },
+        'Hubungi': { msg: `Warga pelapor akan dihubungi mengenai aduan "${aduanTitle}".`, type: 'info' }
+      };
+
+      const config = actions[action] || { msg: 'Aksi berhasil', type: 'info' };
+      showToast(config.msg, config.type);
+    }
+
+    function showKasForm(type) {
+      const label = type === 'pemasukan' ? 'PEMASUKAN' : 'PENGELUARAN';
+      const isIncome = type === 'pemasukan';
+      
+      showModal({
+        title: `Input Kas - ${label}`,
+        message: `<div style="text-align: left;">
+                    <div class="form-group">
+                      <label for="kas-nominal">Nominal (Rupiah)</label>
+                      <input type="number" id="kas-nominal" placeholder="Contoh: 500000" min="0" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="kas-desc">Deskripsi</label>
+                      <select id="kas-desc" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        ${isIncome ? 
+                          `<option value="Iuran Warga">Iuran Warga</option>
+                           <option value="Donasi">Donasi</option>
+                           <option value="Lain-lain">Lain-lain</option>` 
+                          : 
+                          `<option value="Perbaikan Jalan">Perbaikan Jalan</option>
+                           <option value="Kegiatan Sosial">Kegiatan Sosial</option>
+                           <option value="Administrasi">Administrasi</option>
+                           <option value="Keamanan">Keamanan</option>
+                           <option value="Lain-lain">Lain-lain</option>`
+                        }
+                      </select>
+                    </div>
+                  </div>`,
+        type: 'info',
+        buttons: [
+          { 
+            text: '💾 Simpan',
+            action: () => {
+              const nominal = document.getElementById('kas-nominal')?.value;
+              const desc = document.getElementById('kas-desc')?.value;
+              
+              if (!nominal || !desc) {
+                showToast('Semua field harus diisi', 'warning');
+                return;
+              }
+
+              const kasEntry = {
+                id: 'KAS-' + Date.now(),
+                type: type,
+                nominal: parseInt(nominal),
+                description: desc,
+                date: new Date().toLocaleString('id-ID'),
+                recordedBy: document.getElementById('rtName').textContent
+              };
+
+              let kasList = JSON.parse(localStorage.getItem('kasList') || '[]');
+              kasList.push(kasEntry);
+              localStorage.setItem('kasList', JSON.stringify(kasList));
+
+              showToast(`Kas ${label} Rp ${parseInt(nominal).toLocaleString('id-ID')} berhasil dicatat`, 'success');
+            }
+          },
+          { text: 'Batal' }
+        ]
+      });
+    }
+
+    function renderDynamicAduan() {
+      const container = document.getElementById('aduan-dynamic');
+      if (!container) return;
+
+      const aduanList = JSON.parse(localStorage.getItem('aduanList') || '[]');
+      container.innerHTML = '';
+
+      if (!aduanList.length) {
+        container.innerHTML = '<p class="text-muted" style="padding:12px 0;">Belum ada aduan baru dari warga.</p>';
+        return;
+      }
+
+      aduanList.slice().reverse().forEach(item => {
+        const badge = '<span class="status-badge status-pending">⏳ Aduan Masuk</span>';
+        const card = document.createElement('div');
+        card.className = 'aduan-item';
+        card.innerHTML = `
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+            <div>
+              <div class="aduan-title">${item.title || 'Aduan Warga'}</div>
+              <div class="aduan-desc">${item.description || ''}</div>
+              <div style="font-size:13px;color:#666;margin-top:6px;">
+                <strong>Dari:</strong> ${item.submittedBy || 'Warga'} | <strong>ID:</strong> ${item.wargaId || '-'} | <strong>Tgl:</strong> ${item.submittedAt || '-'}
+              </div>
+            </div>
+            <div style="text-align:right;">${badge}</div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-small" onclick="handleAduanAction('${(item.id || item.title || '').replace(/'/g, "\'")}', 'Perbaiki')">🔧 Tandai Ditindak</button>
+            <button class="btn btn-small" onclick="handleAduanAction('${(item.id || item.title || '').replace(/'/g, "\'")}', 'Lapor RW')">📢 Lapor ke RW</button>
+            <button class="btn btn-small" onclick="handleAduanAction('${(item.id || item.title || '').replace(/'/g, "\'")}', 'Hubungi')">📞 Hubungi Warga</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderPaymentNotifications() {
+      const container = document.getElementById('payment-notify');
+      if (!container) return;
+
+      const list = JSON.parse(localStorage.getItem('paymentNotifications') || '[]');
+      container.innerHTML = '';
+
+      if (!list.length) {
+        container.innerHTML = '<p class="text-muted">Belum ada pembayaran tercatat.</p>';
+        return;
+      }
+
+      list.slice().reverse().slice(0, 5).forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'list-item';
+        row.innerHTML = `
+          <div class="list-item-left">
+            <div class="list-item-title">${item.wargaName || 'Warga'} - ${item.bulan || '-'}</div>
+            <div class="list-item-meta">${new Date(item.completedAt || item.createdAt || Date.now()).toLocaleString('id-ID')}</div>
+          </div>
+          <div class="list-item-right">
+            <div style="font-weight:700; color: var(--warna-success);">Rp ${(item.nominal || 0).toLocaleString('id-ID')}</div>
+            <div class="text-muted" style="font-size:12px;">${(item.paymentMethod || 'qris').toUpperCase()}</div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function formatCurrency(value = 0) {
+      return 'Rp ' + (value || 0).toLocaleString('id-ID');
+    }
+
+    function renderKasDynamic() {
+      const container = document.getElementById('kas-dynamic');
+      if (!container) return;
+
+      const kasList = JSON.parse(localStorage.getItem('kasList') || '[]');
+      const incomes = kasList.filter(item => item.type === 'pemasukan');
+
+      if (!incomes.length) {
+        container.innerHTML = '<p class="text-muted" style="padding:12px 0;">Belum ada pemasukan otomatis dari pembayaran warga.</p>';
+        return;
+      }
+
+      const totalIncome = incomes.reduce((sum, item) => sum + (item.nominal || 0), 0);
+
+      const summary = document.createElement('div');
+      summary.className = 'kas-summary';
+      summary.innerHTML = `
+        <div class="kas-row">
+          <div><strong>Total Pemasukan Otomatis</strong></div>
+          <div class="kas-amount positive" style="font-weight:700;">+ ${formatCurrency(totalIncome).replace('Rp ', '')}</div>
+        </div>
+      `;
+
+      container.innerHTML = '';
+      container.appendChild(summary);
+
+      incomes.slice().reverse().forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'kas-summary';
+        row.style.marginTop = '12px';
+        row.innerHTML = `
+          <div class="kas-row">
+            <div>${item.description || 'Pembayaran warga'}${item.warga ? ' - ' + item.warga : ''}</div>
+            <div class="kas-amount positive">+ ${formatCurrency(item.nominal).replace('Rp ', '')}</div>
+          </div>
+          <div class="kas-row" style="font-size: 12px; color: #999;">
+            <div>${new Date(item.date || item.createdAt || Date.now()).toLocaleString('id-ID')}</div>
+            <div>${(item.paymentMethod || '').toUpperCase()}</div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    window.addEventListener('load', () => {
+      loadUserSession();
+      renderDynamicAduan();
+      renderPaymentNotifications();
+      renderKasDynamic();
+      initUserMenu();
+      initProfileMenuItem();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard RW - Sistem Informasi RT/RW</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="../assets/dashboard.css">
+  <script src="../assets/utils.js"></script>
+  <script src="../assets/data.js"></script>
+  <script src="../assets/payment-system.js"></script>
+  <script src="../assets/dashboard-system.js"></script>
+  <script src="../assets/dashboard-header.js"></script>
+  <script src="../assets/rw-dashboard.js"></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="app-header" data-role="rw">
+    <div class="container app-header__inner">
+      <div class="app-header__left">
+        <nav class="app-breadcrumb" aria-label="breadcrumb">
+          <a href="../index.php">Beranda</a>
+          <span aria-hidden="true">•</span>
+          <span>Dashboard RW</span>
+        </nav>
+        <div class="app-header__titles">
+          <div class="app-header__title" id="pageTitle">Dashboard Koordinator RW</div>
+          <div class="app-header__subtitle" id="pageSubtitle">Monitoring & rekap seluruh RT</div>
+        </div>
+      </div>
+
+      <div class="app-header__right">
+        <div class="user-actions-inline" aria-label="Tindakan pengguna" style="margin-left:auto;">
+          <button class="btn btn-small" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- RINGKASAN MINGGU INI -->
+    <div class="section-block">
+      <div class="section-header">RINGKASAN MINGGU INI (19-25 JANUARI 2025)</div>
+
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-info);">12</div>
+          <div class="summary-card-label">Permohonan Surat</div>
+          <div style="font-size: 12px; color: #999; margin-top: 5px;">
+            8 ✓ | 2 ✗ | 2 ⏳
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-warning);">5</div>
+          <div class="summary-card-label">Aduan Warga</div>
+          <div style="font-size: 12px; color: #999; margin-top: 5px;">
+            3 selesai | 2 proses
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-success);">Rp 4,2 Jt</div>
+          <div class="summary-card-label">Iuran Terkumpul</div>
+          <div style="font-size: 12px; color: #999; margin-top: 5px;">
+            85% dari target
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: #FF6F00;">231</div>
+          <div class="summary-card-label">Total Warga</div>
+          <div style="font-size: 12px; color: #999; margin-top: 5px;">
+            5 RT aktif
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box mt-20">
+        <strong>📊 Status Umum:</strong> Operasional lancar. Ada 1 aduan infrastruktur menunggu follow-up RW.
+      </div>
+    </div>
+
+    <!-- ADUAN MASUK DARI RT -->
+    <div class="section-block">
+      <div class="section-header">ADUAN MASUK DARI RT</div>
+      <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+        Aduan yang diteruskan pengurus RT ke RW akan tampil di sini untuk ditindaklanjuti.
+      </p>
+      <div id="aduan-rw-container" class="card"></div>
+    </div>
+
+    <!-- REKAP PERMOHONAN SURAT -->
+    <div class="section-block">
+      <div class="section-header">REKAP PERMOHONAN SURAT - BULAN JANUARI (12 TOTAL)</div>
+
+      <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+        Status semua permohonan surat dari kelima RT di wilayah RW 05:
+      </p>
+
+      <div style="margin: 15px 0;">
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--warna-border);">
+          <strong style="color: var(--warna-utama);">RT</strong>
+          <strong style="color: var(--warna-utama);">Total</strong>
+          <strong style="color: var(--warna-utama);">Disetujui</strong>
+          <strong style="color: var(--warna-utama);">Ditolak</strong>
+          <strong style="color: var(--warna-utama);">Proses</strong>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--warna-border); align-items: center;">
+          <strong>RT 01</strong>
+          <span class="progress-bar" style="width: 80px;">
+            <div class="progress-fill" style="width: 100%; justify-content: flex-start; padding-left: 5px;">■■■■</div>
+          </span>
+          <span style="color: var(--warna-success); font-weight: 600;">3 ✓</span>
+          <span style="color: var(--warna-danger); font-weight: 600;">0</span>
+          <span style="color: var(--warna-warning); font-weight: 600;">1 ⏳</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--warna-border); align-items: center;">
+          <strong>RT 02</strong>
+          <span class="progress-bar" style="width: 80px;">
+            <div class="progress-fill" style="width: 100%; justify-content: flex-start; padding-left: 5px;">■■■</div>
+          </span>
+          <span style="color: var(--warna-success); font-weight: 600;">3 ✓</span>
+          <span style="color: var(--warna-danger); font-weight: 600;">0</span>
+          <span style="color: var(--warna-warning); font-weight: 600;">0 ⏳</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--warna-border); align-items: center;">
+          <strong>RT 03</strong>
+          <span class="progress-bar" style="width: 80px;">
+            <div class="progress-fill" style="width: 100%; justify-content: flex-start; padding-left: 5px;">■■■</div>
+          </span>
+          <span style="color: var(--warna-success); font-weight: 600;">2 ✓</span>
+          <span style="color: var(--warna-danger); font-weight: 600;">0</span>
+          <span style="color: var(--warna-warning); font-weight: 600;">1 ⏳</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--warna-border); align-items: center;">
+          <strong>RT 04</strong>
+          <span class="progress-bar" style="width: 80px;">
+            <div class="progress-fill" style="width: 100%; justify-content: flex-start; padding-left: 5px;">■■</div>
+          </span>
+          <span style="color: var(--warna-success); font-weight: 600;">0 ✓</span>
+          <span style="color: var(--warna-danger); font-weight: 600;">0</span>
+          <span style="color: var(--warna-warning); font-weight: 600;">2 ⏳</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--warna-border); align-items: center;">
+          <strong>RT 05</strong>
+          <span class="progress-bar" style="width: 80px;">
+            <div class="progress-fill" style="width: 100%; justify-content: flex-start; padding-left: 5px;">■</div>
+          </span>
+          <span style="color: var(--warna-success); font-weight: 600;">1 ✓</span>
+          <span style="color: var(--warna-danger); font-weight: 600;">0</span>
+          <span style="color: var(--warna-warning); font-weight: 600;">0 ⏳</span>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>📝 Catatan:</strong> RT 04 perlu diingatkan untuk mempercepat proses validasi permohonan.
+      </div>
+    </div>
+
+    <!-- KEUANGAN PER RT -->
+    <div class="section-block">
+      <div class="section-header">KEUANGAN PER RT - BULAN JANUARI 2025</div>
+
+      <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+        Ringkasan transaksi kas setiap RT untuk monitoring kesehatan keuangan wilayah RW:
+      </p>
+
+      <!-- RT 01 -->
+      <div class="rt-row">
+        <div class="rt-name">RT 01 (Ketua: Pak Hendra)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 2;">
+          <div>
+            <div style="font-size: 13px; color: #999;">Pemasukan:</div>
+            <div class="rt-pemasukan">Rp 1.050.000</div>
+          </div>
+          <div>
+            <div style="font-size: 13px; color: #999;">Pengeluaran:</div>
+            <div class="rt-pengeluaran">Rp 500.000</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px; color: #999;">Saldo:</div>
+          <div class="rt-saldo">Rp 2.100.000</div>
+          <span class="status-badge status-approved" style="margin-top: 5px;">✓ NORMAL</span>
+        </div>
+      </div>
+
+      <!-- RT 02 -->
+      <div class="rt-row" style="background: #FFF8E1;">
+        <div class="rt-name">RT 02 (Ketua: Ibu Sulastri)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 2;">
+          <div>
+            <div style="font-size: 13px; color: #999;">Pemasukan:</div>
+            <div class="rt-pemasukan">Rp 950.000</div>
+          </div>
+          <div>
+            <div style="font-size: 13px; color: #999;">Pengeluaran:</div>
+            <div class="rt-pengeluaran">Rp 600.000</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px; color: #999;">Saldo:</div>
+          <div class="rt-saldo">Rp 1.800.000</div>
+          <span class="status-badge status-pending" style="margin-top: 5px;">⚠️ PERLU CEK</span>
+        </div>
+      </div>
+
+      <!-- RT 03 -->
+      <div class="rt-row">
+        <div class="rt-name">RT 03 (Ketua: Pak Bambang)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 2;">
+          <div>
+            <div style="font-size: 13px; color: #999;">Pemasukan:</div>
+            <div class="rt-pemasukan">Rp 850.000</div>
+          </div>
+          <div>
+            <div style="font-size: 13px; color: #999;">Pengeluaran:</div>
+            <div class="rt-pengeluaran">Rp 700.000</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px; color: #999;">Saldo:</div>
+          <div class="rt-saldo">Rp 1.200.000</div>
+          <span class="status-badge status-approved" style="margin-top: 5px;">✓ NORMAL</span>
+        </div>
+      </div>
+
+      <!-- RT 04 -->
+      <div class="rt-row">
+        <div class="rt-name">RT 04 (Ketua: Pak Rinto)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 2;">
+          <div>
+            <div style="font-size: 13px; color: #999;">Pemasukan:</div>
+            <div class="rt-pemasukan">Rp 1.200.000</div>
+          </div>
+          <div>
+            <div style="font-size: 13px; color: #999;">Pengeluaran:</div>
+            <div class="rt-pengeluaran">Rp 400.000</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px; color: #999;">Saldo:</div>
+          <div class="rt-saldo">Rp 3.500.000</div>
+          <span class="status-badge status-approved" style="margin-top: 5px;">✓ NORMAL</span>
+        </div>
+      </div>
+
+      <!-- RT 05 -->
+      <div class="rt-row">
+        <div class="rt-name">RT 05 (Ketua: Pak Rahmat)</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 2;">
+          <div>
+            <div style="font-size: 13px; color: #999;">Pemasukan:</div>
+            <div class="rt-pemasukan">Rp 1.100.000</div>
+          </div>
+          <div>
+            <div style="font-size: 13px; color: #999;">Pengeluaran:</div>
+            <div class="rt-pengeluaran">Rp 800.000</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px; color: #999;">Saldo:</div>
+          <div class="rt-saldo">Rp 3.100.000</div>
+          <span class="status-badge status-approved" style="margin-top: 5px;">✓ NORMAL</span>
+        </div>
+      </div>
+
+      <div class="info-box mt-20">
+        <strong>💰 Total Pemasukan RW:</strong> Rp 5.150.000 | <strong>Total Pengeluaran:</strong> Rp 3.000.000 | <strong>Saldo Gabungan:</strong> Rp 11.700.000
+      </div>
+    </div>
+
+    <!-- STATISTIK WARGA -->
+    <div class="section-block">
+      <div class="section-header">STATISTIK WARGA RW 05 (DATA TERBARU: 25 JANUARI 2025)</div>
+
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-utama);">231</div>
+          <div class="summary-card-label">Total KK RW</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-utama);">45</div>
+          <div class="summary-card-label">RT 01</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-utama);">44</div>
+          <div class="summary-card-label">RT 02</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-utama);">48</div>
+          <div class="summary-card-label">RT 03</div>
+        </div>
+      </div>
+
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-utama);">46</div>
+          <div class="summary-card-label">RT 04</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value" style="color: var(--warna-utama);">45</div>
+          <div class="summary-card-label">RT 05</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-value">-</div>
+          <div class="summary-card-label">Perlu Sync</div>
+        </div>
+      </div>
+
+      <button class="btn mt-20">📊 Ekspor Data Statistik</button>
+    </div>
+
+    <!-- VALIDASI LAPORAN RT -->
+    <div class="section-block">
+      <div class="section-header">VALIDASI LAPORAN BULANAN RT (DESEMBER 2024)</div>
+
+      <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+        Persetujuan laporan kas dan rekapan aktivitas RT dari bulan sebelumnya:
+      </p>
+
+      <!-- Laporan RT 01 -->
+      <div class="validasi-item">
+        <div class="validasi-info">
+          <div class="validasi-name">📋 Laporan RT 01 (Bulan Desember 2024)</div>
+          <div class="validasi-meta">Ketua: Pak Hendra | Submitted: 5 Januari 2025</div>
+          <div style="margin-top: 10px; font-size: 13px;">
+            <strong>Ringkasan:</strong> Pemasukan Rp 1.200.000, Pengeluaran Rp 600.000. Status kas normal.
+          </div>
+        </div>
+        <div class="validasi-actions">
+          <span class="status-badge status-approved">✓ DISETUJUI</span>
+        </div>
+      </div>
+
+      <!-- Laporan RT 02 -->
+      <div class="validasi-item">
+        <div class="validasi-info">
+          <div class="validasi-name">📋 Laporan RT 02 (Bulan Desember 2024)</div>
+          <div class="validasi-meta">Ketua: Ibu Sulastri | Submitted: 8 Januari 2025</div>
+          <div style="margin-top: 10px; font-size: 13px;">
+            <strong>Ringkasan:</strong> Pemasukan Rp 950.000, Pengeluaran Rp 550.000. Perlu klarifikasi pos "Lain-lain" Rp 50.000.
+          </div>
+        </div>
+        <div class="validasi-actions">
+          <button class="btn btn-small" onclick="handleValidasiLaporan('RT 02')">✓ Setujui</button>
+          <button class="btn btn-small btn-danger" onclick="handleValidasiLaporan('RT 02', 'tolak')">Kembalikan</button>
+        </div>
+      </div>
+
+      <!-- Laporan RT 03 -->
+      <div class="validasi-item">
+        <div class="validasi-info">
+          <div class="validasi-name">📋 Laporan RT 03 (Bulan Desember 2024)</div>
+          <div class="validasi-meta">Ketua: Pak Bambang | Submitted: 4 Januari 2025</div>
+          <div style="margin-top: 10px; font-size: 13px;">
+            <strong>Ringkasan:</strong> Pemasukan Rp 850.000, Pengeluaran Rp 700.000. Status kas normal.
+          </div>
+        </div>
+        <div class="validasi-actions">
+          <span class="status-badge status-approved">✓ DISETUJUI</span>
+        </div>
+      </div>
+
+      <!-- Laporan RT 04 -->
+      <div class="validasi-item">
+        <div class="validasi-info">
+          <div class="validasi-name">📋 Laporan RT 04 (Bulan Desember 2024)</div>
+          <div class="validasi-meta">Ketua: Pak Rinto | Belum Submit (Deadline: 10 Januari)</div>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--warna-danger);">
+            <strong>⚠️ STATUS:</strong> BELUM MASUK (Perlu reminder)
+          </div>
+        </div>
+        <div class="validasi-actions">
+          <button class="btn btn-small" onclick="handleValidasiLaporan('RT 04', 'reminder')">📞 Kirim Reminder</button>
+        </div>
+      </div>
+
+      <!-- Laporan RT 05 -->
+      <div class="validasi-item">
+        <div class="validasi-info">
+          <div class="validasi-name">📋 Laporan RT 05 (Bulan Desember 2024)</div>
+          <div class="validasi-meta">Ketua: Pak Rahmat | Submitted: 6 Januari 2025</div>
+          <div style="margin-top: 10px; font-size: 13px;">
+            <strong>Ringkasan:</strong> Pemasukan Rp 1.050.000, Pengeluaran Rp 700.000. Status kas normal.
+          </div>
+        </div>
+        <div class="validasi-actions">
+          <span class="status-badge status-approved">✓ DISETUJUI</span>
+        </div>
+      </div>
+
+      <div class="info-box mt-20">
+        <strong>📌 Catatan Validasi:</strong> 3 laporan sudah disetujui. 1 menunggu klarifikasi, 1 belum masuk. Reminder akan dikirim ke RT 04.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 RW 05 Kelurahan Maju Jaya | Dashboard Koordinator RW</p>
+    <p style="font-size: 12px; margin-top: 10px;">Hubungi Kelurahan: 0274-1234567</p>
+  </footer>
+
+  <script>
+    function loadUserSession() {
+      const session = localStorage.getItem('userSession');
+      if (!session) {
+        window.location.href = '../index.php';
+        return;
+      }
+
+      try {
+        const user = JSON.parse(session);
+        if (user.role !== 'rw') {
+          window.location.href = '../index.php';
+          return;
+        }
+
+        const nameEl = document.getElementById('rwName');
+        if (nameEl) nameEl.textContent = user.name || 'Pengurus RW';
+
+        configureHeaderByRole(user);
+        updateNotificationBadge();
+        initPrimaryCta(user.role);
+      } catch (e) {
+        console.error('Error loading session:', e);
+        window.location.href = '../index.php';
+      }
+    }
+
+    function handleLogout() {
+      showConfirm({
+        title: 'Logout',
+        message: 'Apakah Anda yakin ingin logout?',
+        confirmText: 'Ya, Logout',
+        cancelText: 'Batal',
+        onConfirm: () => {
+          localStorage.removeItem('userSession');
+          window.location.href = '../index.php';
+        }
+      });
+    }
+
+    function handleValidasiLaporan(rt, action = 'setuju') {
+      if (action === 'setuju') {
+        showConfirm({
+          title: 'Setujui Laporan',
+          message: `Setujui laporan bulanan dari <strong>${rt}</strong>?`,
+          confirmText: 'Ya, Setujui',
+          cancelText: 'Batal',
+          onConfirm: () => {
+            const laporanEntry = {
+              id: 'LAP-' + Date.now(),
+              rt: rt,
+              status: 'APPROVED',
+              validatedBy: document.getElementById('rwName').textContent,
+              validatedAt: new Date().toLocaleString('id-ID')
+            };
+
+            let laporanList = JSON.parse(localStorage.getItem('laporanList') || '[]');
+            laporanList.push(laporanEntry);
+            localStorage.setItem('laporanList', JSON.stringify(laporanList));
+
+            showModal({
+              title: 'Laporan Disetujui',
+              message: `Laporan dari <strong>${rt}</strong> telah disetujui dan diarsipkan.`,
+              type: 'success',
+              buttons: [{ text: 'OK' }]
+            });
+          }
+        });
+      } else if (action === 'tolak') {
+        showModal({
+          title: 'Kembalikan Laporan',
+          message: `<div style="text-align: left;">
+                      <p>Alasan mengembalikan laporan <strong>${rt}</strong>:</p>
+                      <textarea id="reject-reason" placeholder="Masukkan alasan..." 
+                                style="width: 100%; min-height: 80px; padding: 8px; border-radius: 6px; border: 1px solid #ddd; font-family: inherit;"></textarea>
+                    </div>`,
+          type: 'warning',
+          buttons: [
+            { 
+              text: '❌ Kembalikan',
+              action: () => {
+                const alasan = document.getElementById('reject-reason')?.value.trim();
+                if (!alasan) {
+                  showToast('Silakan masukkan alasan', 'warning');
+                  return;
+                }
+
+                const laporanEntry = {
+                  id: 'LAP-' + Date.now(),
+                  rt: rt,
+                  status: 'REJECTED',
+                  reason: alasan,
+                  validatedBy: document.getElementById('rwName').textContent,
+                  validatedAt: new Date().toLocaleString('id-ID')
+                };
+
+                let laporanList = JSON.parse(localStorage.getItem('laporanList') || '[]');
+                laporanList.push(laporanEntry);
+                localStorage.setItem('laporanList', JSON.stringify(laporanList));
+
+                showModal({
+                  title: 'Laporan Dikembalikan',
+                  message: `Laporan ${rt} telah dikembalikan dengan alasan:<br><strong>${alasan}</strong>`,
+                  type: 'info',
+                  buttons: [{ text: 'OK' }]
+                });
+              }
+            },
+            { text: 'Batal' }
+          ]
+        });
+      } else if (action === 'reminder') {
+        showModal({
+          title: 'Kirim Reminder',
+          message: `Pengingat akan dikirim ke <strong>${rt}</strong> untuk segera mensubmit laporan.`,
+          type: 'info',
+          buttons: [
+            { 
+              text: '📞 Kirim Reminder',
+              action: () => {
+                showToast(`Reminder telah dikirim ke ${rt}`, 'success');
+              }
+            },
+            { text: 'Batal' }
+          ]
+        });
+      }
+    }
+
+    function configureHeaderByRole(user = {}) {
+      const header = document.querySelector('.app-header');
+      if (!header) return;
+
+      const role = user.role || header.dataset.role || 'rw';
+      const rtNumber = header.dataset.rt || (user.id && (user.id.match(/\d+/) || [])[0]) || '';
+
+      const pageTitle = document.getElementById('pageTitle');
+      const pageSubtitle = document.getElementById('pageSubtitle');
+      const roleBadge = document.getElementById('roleBadge');
+      const ctaLabel = document.getElementById('ctaLabel');
+      const ctaIcon = document.getElementById('ctaIcon');
+      const avatar = document.getElementById('rwAvatar');
+
+      const initials = (user.name || 'RW').split(' ').map(n => n[0]).filter(Boolean).join('').substring(0, 2).toUpperCase();
+      if (avatar) avatar.textContent = initials || 'RW';
+
+      if (roleBadge) {
+        roleBadge.textContent = role.toUpperCase();
+        roleBadge.classList.remove('badge-role--rw', 'badge-role--rt', 'badge-role--warga');
+        if (role === 'rt') {
+          roleBadge.classList.add('badge-role--rt');
+        } else if (role === 'warga') {
+          roleBadge.classList.add('badge-role--warga');
+        } else {
+          roleBadge.classList.add('badge-role--rw');
+        }
+      }
+
+      if (role === 'rt') {
+        if (pageTitle) pageTitle.textContent = `Dashboard Ketua RT ${rtNumber || ''}`.trim();
+        if (pageSubtitle) pageSubtitle.textContent = 'Rekap & layanan warga RT';
+        if (ctaLabel) ctaLabel.textContent = 'Buat Surat / Validasi';
+        if (ctaIcon) ctaIcon.textContent = '📝';
+      } else if (role === 'warga') {
+        if (pageTitle) pageTitle.textContent = 'Portal Warga';
+        if (pageSubtitle) pageSubtitle.textContent = 'Layanan surat, aduan, iuran';
+        if (ctaLabel) ctaLabel.textContent = 'Ajukan Surat';
+        if (ctaIcon) ctaIcon.textContent = '✉️';
+      } else {
+        if (pageTitle) pageTitle.textContent = 'Dashboard Koordinator RW';
+        if (pageSubtitle) pageSubtitle.textContent = 'Monitoring & rekap seluruh RT';
+        if (ctaLabel) ctaLabel.textContent = 'Rekap RW';
+        if (ctaIcon) ctaIcon.textContent = '📊';
+      }
+    }
+
+    function updateNotificationBadge() {
+      const notifEl = document.getElementById('notifCount');
+      if (!notifEl) return;
+      const aduanRWList = JSON.parse(localStorage.getItem('aduanRWList') || '[]');
+      const total = aduanRWList.length;
+      notifEl.textContent = total > 9 ? '9+' : total;
+      notifEl.style.display = total ? 'inline-flex' : 'none';
+    }
+
+    function initUserMenu() {
+      const toggle = document.getElementById('userMenuToggle');
+      const dropdown = document.getElementById('userDropdown');
+      if (!toggle || !dropdown) return;
+
+      const closeMenu = () => {
+        dropdown.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      };
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeMenu();
+        }
+      });
+    }
+
+    function initProfileMenuItem() {
+      const profileBtn = document.getElementById('profileMenuItem');
+      if (!profileBtn) return;
+      profileBtn.onclick = () => {
+        window.location.href = 'profil.html';
+      };
+    }
+
+    function initPrimaryCta(role = 'rw') {
+      const btn = document.getElementById('primaryCta');
+      if (!btn) return;
+
+      btn.onclick = () => {
+        if (role === 'rt') {
+          showToast('Buka form validasi atau surat RT', 'info');
+        } else if (role === 'warga') {
+          showToast('Arahkan ke pengajuan surat', 'info');
+        } else {
+          showToast('Buka rekap laporan RW', 'info');
+        }
+      };
+    }
+
+    function renderAduanFromRT() {
+      const container = document.getElementById('aduan-rw-container');
+      if (!container) return;
+
+      const aduanRWList = JSON.parse(localStorage.getItem('aduanRWList') || '[]');
+      container.innerHTML = '';
+
+      if (!aduanRWList.length) {
+        container.innerHTML = '<p class="text-muted">Belum ada aduan yang diteruskan ke RW.</p>';
+        return;
+      }
+
+      aduanRWList.slice().reverse().forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'aduan-item';
+        card.style.marginBottom = '12px';
+        card.innerHTML = `
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;">
+            <div>
+              <div class="aduan-title">${item.title || 'Aduan Warga'}</div>
+              <div class="aduan-desc">${item.description || 'Tidak ada deskripsi'}</div>
+              <div style="font-size:13px;color:#666;margin-top:6px;">
+                <strong>Dari:</strong> ${item.submittedBy || 'Warga'} (${item.wargaId || '-'})<br>
+                <strong>Masuk:</strong> ${item.submittedAt || '-'} | <strong>Diteruskan oleh:</strong> ${item.forwardedBy || 'RT'}
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <span class="status-badge status-pending">⏳ Menunggu Respon RW</span>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-small" onclick="showToast('Aduan ditandai sedang ditindaklanjuti RW', 'success')">🔧 Tindaklanjuti</button>
+            <button class="btn btn-small" onclick="showToast('Permintaan detail dikirim ke RT', 'info')">📩 Minta Detail ke RT</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    window.addEventListener('load', () => {
+      loadUserSession();
+      renderAduanFromRT();
+      initUserMenu();
+      initProfileMenuItem();
+    });
+  </script>
+</body>
+</html>

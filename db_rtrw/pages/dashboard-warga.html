@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Warga - Sistem Informasi RT/RW</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="../assets/dashboard.css">
+  <script src="../assets/utils.js"></script>
+  <script src="../assets/data.js"></script>
+  <script src="../assets/payment-system.js"></script>
+  <script src="../assets/dashboard-header.js"></script>
+  <script src="../assets/warga-dashboard.js"></script>
+  <style>
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .warga-id {
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="app-header" data-role="warga">
+    <div class="container app-header__inner">
+      <div class="app-header__left">
+        <nav class="app-breadcrumb" aria-label="breadcrumb">
+          <a href="../index.php">Beranda</a>
+          <span aria-hidden="true">•</span>
+          <span>Dashboard Warga</span>
+        </nav>
+        <div class="app-header__titles">
+          <div class="app-header__title" id="pageTitle">Portal Warga</div>
+          <div class="app-header__subtitle" id="pageSubtitle">Layanan surat, aduan, iuran</div>
+        </div>
+      </div>
+
+      <div class="app-header__right">
+        <div class="user-actions-inline" aria-label="Tindakan pengguna" style="margin-left:auto;">
+          <button class="btn btn-small" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="payment-success-banner" class="info-box success" style="display:none; margin-top: -5px;">
+      <strong>✅ Pembayaran Berhasil</strong>
+      <div id="payment-success-text" style="margin-top:6px; font-size:13px; color:#555;"></div>
+    </div>
+
+    <!-- PENGAJUAN SURAT SAYA -->
+    <div class="section-block">
+      <div class="section-header">PENGAJUAN SURAT SAYA</div>
+
+      <!-- Pengajuan 1: Pending -->
+      <div class="status-tracking">
+        <strong style="color: var(--warna-utama);">📄 Surat Keterangan Usaha</strong>
+        <div style="margin-top: 8px; font-size: 14px;">
+          Diajukan: <strong>15 Januari 2025</strong>
+        </div>
+        <div style="margin-top: 10px;">
+          <span class="status-badge status-pending">⏳ PROSES (Tunggu RT)</span>
+        </div>
+        <div class="status-flow">
+          Riwayat: Dikirim ke RT → 🔄 Tunggu Validasi RW → Selesai
+        </div>
+      </div>
+
+      <!-- Pengajuan 2: Selesai -->
+      <div class="status-tracking">
+        <strong style="color: var(--warna-utama);">📄 Surat Domisili</strong>
+        <div style="margin-top: 8px; font-size: 14px;">
+          Diajukan: <strong>10 Januari 2025</strong>
+        </div>
+        <div style="margin-top: 10px;">
+          <span class="status-badge status-approved">✓ SELESAI</span>
+        </div>
+        <div class="status-flow">
+          ✓ Dikirim ke RT → ✓ Validasi RW → ✓ Ambil di Kantor RT
+        </div>
+        <button class="btn btn-small mt-10" onclick="handleDownloadSurat('Surat Domisili')">📥 Download Surat</button>
+      </div>
+
+      <!-- Pengajuan 3: Selesai (sudah diambil) -->
+      <div class="status-tracking">
+        <strong style="color: var(--warna-utama);">📄 Surat Izin Usaha</strong>
+        <div style="margin-top: 8px; font-size: 14px;">
+          Diajukan: <strong>20 Desember 2024</strong> | Diselesaikan: <strong>2 Januari 2025</strong>
+        </div>
+        <div style="margin-top: 10px;">
+          <span class="status-badge status-approved">✓ SUDAH DIAMBIL</span>
+        </div>
+      </div>
+
+      <div class="info-box mt-20">
+        <strong>📌 Catatan:</strong> Pengajuan surat baru dapat dilakukan kapan saja. Hubungi pengurus RT jika ada pertanyaan.
+      </div>
+    </div>
+
+    <!-- IURAN BULANAN -->
+    <div class="section-block">
+      <div class="section-header">IURAN BULANAN</div>
+
+      <!-- Iuran Bulan Ini -->
+      <div class="riwayat-item pending">
+        <strong style="color: #856404;">Januari 2025</strong>
+        <div style="margin-top: 5px; font-weight: 600; color: var(--warna-warning);">Rp 50.000</div>
+        <div style="margin-top: 5px; font-size: 13px; color: #856404;">Status: Belum Bayar</div>
+        <div style="margin-top: 10px;">
+          <button class="btn btn-primary btn-small" onclick="handleBayarIuran('Januari 2025', 50000)">💳 Bayar Sekarang</button>
+          <button class="btn btn-small" onclick="showQrisModal('Januari 2025', 50000)">📱 QRIS</button>
+          <button class="btn btn-small" onclick="handleLihatRincian('iuran')">📋 Lihat Rincian</button>
+        </div>
+      </div>
+
+      <!-- Riwayat Iuran -->
+      <div style="margin-top: 20px;">
+        <strong style="display: block; margin-bottom: 15px; color: var(--warna-utama);">Riwayat Pembayaran:</strong>
+
+        <div class="riwayat-item success">
+          <strong style="color: var(--warna-success);">Desember 2024</strong>
+          <div style="margin-top: 5px; font-weight: 600; color: var(--warna-success);">Rp 50.000</div>
+          <div style="margin-top: 5px; font-size: 13px; color: #155724;">Status: ✓ LUNAS (Bayar tgl 28 Desember)</div>
+        </div>
+
+        <div class="riwayat-item success">
+          <strong style="color: var(--warna-success);">November 2024</strong>
+          <div style="margin-top: 5px; font-weight: 600; color: var(--warna-success);">Rp 50.000</div>
+          <div style="margin-top: 5px; font-size: 13px; color: #155724;">Status: ✓ LUNAS (Bayar tgl 15 November)</div>
+        </div>
+
+        <div class="riwayat-item success">
+          <strong style="color: var(--warna-success);">Oktober 2024</strong>
+          <div style="margin-top: 5px; font-weight: 600; color: var(--warna-success);">Rp 50.000</div>
+          <div style="margin-top: 5px; font-size: 13px; color: #155724;">Status: ✓ LUNAS (Bayar tgl 10 Oktober)</div>
+        </div>
+      </div>
+
+      <div class="info-box mt-20">
+        <strong>💰 Ringkasan:</strong> Total terhutang: Rp 50.000 | Total terbayar tahun ini: Rp 150.000
+      </div>
+    </div>
+
+    <!-- PENGUMUMAN TERBARU -->
+    <div class="section-block">
+      <div class="section-header">PENGUMUMAN & INFORMASI TERBARU</div>
+
+      <div style="border-left: 4px solid var(--warna-warning); background: #FFF8E1; padding: 15px; margin: 15px 0; border-radius: 3px;">
+        <strong style="color: #856404;">📢 PENTING: Rapat Rutin RT 05</strong>
+        <div style="margin-top: 8px; color: #666;">
+          <strong>Hari:</strong> Jum'at, 24 Januari 2025<br>
+          <strong>Jam:</strong> 19:00 (malam)<br>
+          <strong>Tempat:</strong> Rumah Ketua RT, Gang Mawar No. 5<br>
+          <strong>Topik:</strong> Rencana perbaikan jalan dan rapat rutin bulanan<br>
+          <strong>Kehadiran:</strong> Dimohon minimal satu perwakilan per KK
+        </div>
+        <button class="btn btn-primary btn-small mt-10" id="kehadiranBtn" onclick="handleMarkKehadiran('Rapat Rutin RT 05', '24-01-2025')">Tandai Akan Hadir</button>
+      </div>
+
+      <div style="border-left: 4px solid var(--warna-danger); background: #FFEBEE; padding: 15px; margin: 15px 0; border-radius: 3px;">
+        <strong style="color: #C62828;">⚠️ PENGUMUMAN: Iuran Tambahan Perbaikan Jalan</strong>
+        <div style="margin-top: 8px; color: #666;">
+          <strong>Nominal:</strong> Rp 20.000 per KK<br>
+          <strong>Target:</strong> Perbaikan jalan gang mawar, yang sudah berlubang-lubang<br>
+          <strong>Batas Pembayaran:</strong> 30 Januari 2025<br>
+          <strong>Jadwal Pekerjaan:</strong> Minggu, 25 Januari 2025 (Pukul 07:00)
+        </div>
+        <button class="btn btn-primary btn-small mt-10" onclick="handleBayarIuranTambahan('Perbaikan Jalan', 20000)">📝 Bayar Iuran Tambahan</button>
+      </div>
+
+      <div style="border-left: 4px solid var(--warna-info); background: #E3F2FD; padding: 15px; margin: 15px 0; border-radius: 3px;">
+        <strong style="color: #1565C0;">🎁 UNDIAN AKHIR TAHUN RT/RW</strong>
+        <div style="margin-top: 8px; color: #666;">
+          <strong>Undian sudah dilaksanakan pada:</strong> 15 Januari 2025<br>
+          <strong>Hadiah Utama:</strong> Sepeda Motor<br>
+          <strong>Hadiah 2:</strong> TV 32 Inch (2 pemenang)<br>
+          <strong>Hadiah 3:</strong> Voucher Beras (10 pemenang)<br>
+          Status anda: <span class="status-badge status-approved" style="margin-top: 8px;">Tidak menang undian ini</span>
+        </div>
+        <button class="btn btn-small mt-10" onclick="handleViewWinner()">👑 Lihat Daftar Pemenang</button>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button class="btn" onclick="window.location.href='pengumuman.html'">📢 Lihat Semua Pengumuman</button>
+      </div>
+    </div>
+
+    <!-- FORM ADUAN / ASPIRASI -->
+    <div class="section-block">
+      <div class="section-header">KIRIM ADUAN / ASPIRASI / LAPORAN</div>
+
+      <p style="color: #666; margin-bottom: 20px;">
+        Sampaikan masalah, saran, atau aspirasi Anda kepada pengurus RT/RW. Form ini akan diteruskan langsung ke ketua RT.
+      </p>
+
+      <form onsubmit="handleSubmitAduan(event)">
+        <div class="form-group">
+          <label for="aduan-title">Judul Aduan / Aspirasi</label>
+          <input 
+            type="text" 
+            id="aduan-title" 
+            placeholder="Contoh: Jalan berlubang, Lampu jalan mati, Saran kegiatan" 
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="aduan-category">Kategori</label>
+          <select id="aduan-category" required>
+            <option value="">-- Pilih Kategori --</option>
+            <option value="infrastruktur">🛣️ Infrastruktur (Jalan, Air, Listrik)</option>
+            <option value="keamanan">🚨 Keamanan & Ketentraman</option>
+            <option value="kebersihan">🧹 Kebersihan & Lingkungan</option>
+            <option value="sosial">❤️ Sosial & Kesejahteraan</option>
+            <option value="keuangan">💰 Keuangan & Kas RT</option>
+            <option value="lainnya">📝 Lainnya</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="aduan-desc">Deskripsi Detail</label>
+          <textarea 
+            id="aduan-desc" 
+            placeholder="Jelaskan masalahnya secara detail (Lokasi, kapan terjadi, dampak, dll)" 
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="consent-check">
+            <input type="checkbox" id="aduan-consent" required>
+            <span>Saya setuju data ini diproses oleh pengurus RT/RW</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">✉️ Kirim Aduan</button>
+        <button type="reset" class="btn">Bersihkan Form</button>
+      </form>
+
+      <div class="info-box mt-20">
+        <strong>📝 Catatan:</strong> Aduan Anda akan ditindaklanjuti dalam waktu maksimal 1 minggu. Pengurus RT akan menghubungi Anda jika diperlukan informasi tambahan.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 RT 05 Kelurahan Maju Jaya | Sistem Informasi Warga</p>
+    <p style="font-size: 12px; margin-top: 10px;">Hubungi: Pengurus RT (WhatsApp: 0812-3456-7890)</p>
+  </footer>
+
+  <script>
+    // Load user session
+    function loadUserSession() {
+      const session = localStorage.getItem('userSession');
+      if (!session) {
+        window.location.href = '../index.php';
+        return;
+      }
+
+      try {
+        const user = JSON.parse(session);
+        if (user.role !== 'warga') {
+          window.location.href = '../index.php';
+          return;
+        }
+        const nameEl = document.getElementById('userName');
+        if (nameEl) nameEl.textContent = user.name || 'Pengguna';
+        const wargaIdEl = document.getElementById('wargaId');
+        if (wargaIdEl) wargaIdEl.textContent = 'ID: ' + (user.id || 'RW05/001');
+
+        configureHeaderByRole(user);
+        updateNotificationBadge();
+        initPrimaryCta(user.role);
+      } catch (e) {
+        console.error('Error loading session:', e);
+        window.location.href = '../index.php';
+      }
+    }
+
+    function handleLogout() {
+      showConfirm({
+        title: 'Logout',
+        message: 'Apakah Anda yakin ingin logout?',
+        confirmText: 'Ya, Logout',
+        cancelText: 'Batal',
+        onConfirm: () => {
+          localStorage.removeItem('userSession');
+          window.location.href = '../index.php';
+        }
+      });
+    }
+
+    function showQrisModal(bulan, nominal) {
+      showModal({
+        title: `QRIS Pembayaran Iuran (${bulan})`,
+        message: `
+          <div class="qris-card">
+              <img id="qris-image" src="../assets/images/qris.jpg" alt="QRIS" 
+                onerror="this.style.display='none'; document.getElementById('qris-fallback').style.display='block';" />
+              <div id="qris-fallback" style="display:none; font-weight:600; color:#d32f2f;">QRIS belum diunggah. Taruh file di assets/images/qris.jpg</div>
+            <div class="qris-meta">
+              Nominal: <strong>Rp ${nominal.toLocaleString('id-ID')}</strong><br>
+              Pindai dengan aplikasi pembayaran favorit Anda.
+            </div>
+            <div class="qris-meta" style="font-size:12px; color:#999;">
+              Jika gambar tidak muncul, pastikan file <code>assets/images/qris-merchant.png</code> tersedia.
+            </div>
+          </div>
+        `,
+        type: 'info',
+        buttons: [{ text: 'OK' }]
+      });
+    }
+
+    function configureHeaderByRole(user = {}) {
+      const role = user.role || 'warga';
+      const pageTitle = document.getElementById('pageTitle');
+      const pageSubtitle = document.getElementById('pageSubtitle');
+      const roleBadge = document.getElementById('roleBadge');
+      const ctaLabel = document.getElementById('ctaLabel');
+      const ctaIcon = document.getElementById('ctaIcon');
+      const avatar = document.getElementById('wargaAvatar');
+
+      const initials = (user.name || 'WG').split(' ').map(n => n[0]).filter(Boolean).join('').substring(0, 2).toUpperCase();
+      if (avatar) avatar.textContent = initials || 'WG';
+
+      if (roleBadge) {
+        roleBadge.textContent = 'WARGA';
+        roleBadge.classList.remove('badge-role--rw', 'badge-role--rt', 'badge-role--warga');
+        roleBadge.classList.add('badge-role--warga');
+      }
+
+      if (pageTitle) pageTitle.textContent = 'Portal Warga';
+      if (pageSubtitle) pageSubtitle.textContent = 'Layanan surat, aduan, iuran';
+      if (ctaLabel) ctaLabel.textContent = 'Ajukan Surat';
+      if (ctaIcon) ctaIcon.textContent = '✉️';
+    }
+
+    function updateNotificationBadge() {
+      const notifEl = document.getElementById('notifCount');
+      if (!notifEl) return;
+      const aduanList = JSON.parse(localStorage.getItem('aduanList') || '[]');
+      const total = aduanList.length;
+      notifEl.textContent = total > 9 ? '9+' : total;
+      notifEl.style.display = total ? 'inline-flex' : 'none';
+    }
+
+    function initUserMenu() {
+      const toggle = document.getElementById('userMenuToggle');
+      const dropdown = document.getElementById('userDropdown');
+      if (!toggle || !dropdown) return;
+
+      const closeMenu = () => {
+        dropdown.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      };
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target)) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
+
+    function initPrimaryCta(role = 'warga') {
+      const btn = document.getElementById('primaryCta');
+      if (!btn) return;
+      btn.onclick = () => {
+        const target = document.getElementById('aduan-title');
+        if (target && typeof target.scrollIntoView === 'function') {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.focus({ preventScroll: true });
+        } else {
+          showToast('Buka formulir pengajuan/aduan', 'info');
+        }
+      };
+    }
+
+    function initProfileMenuItem() {
+      const profileBtn = document.getElementById('profileMenuItem');
+      if (!profileBtn) return;
+      profileBtn.onclick = () => {
+        window.location.href = 'profil.html';
+      };
+    }
+
+    function showPaymentSuccessBanner() {
+      const raw = localStorage.getItem('lastPaymentSuccess');
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        const banner = document.getElementById('payment-success-banner');
+        const text = document.getElementById('payment-success-text');
+        if (!banner || !text) return;
+
+        const nominal = data.nominal ? `Rp ${data.nominal.toLocaleString('id-ID')}` : '-';
+        const bulan = data.bulan || '-';
+        const metode = (data.paymentMethod || 'qris').toUpperCase();
+        const waktu = data.completedAt ? new Date(data.completedAt).toLocaleString('id-ID') : '';
+
+        text.innerHTML = `Pembayaran ${bulan} sebesar <strong>${nominal}</strong> via <strong>${metode}</strong> tercatat. ${waktu ? 'Waktu: ' + waktu : ''}`;
+        banner.style.display = 'block';
+      } catch (e) {
+        console.error('Error parsing lastPaymentSuccess', e);
+      } finally {
+        localStorage.removeItem('lastPaymentSuccess');
+      }
+    }
+
+    // ==========================================
+    // PAYMENT & IURAN
+    // ==========================================
+    function handleBayarIuran(bulan, nominal) {
+      const user = JSON.parse(localStorage.getItem('userSession') || '{}');
+      
+      showModal({
+        title: '🧪 Simulasi Pembayaran Iuran',
+        message: `<p>Anda akan membayar iuran untuk bulan <strong>${bulan}</strong></p>
+                  <p style="margin: 15px 0; font-size: 18px; color: var(--warna-utama); font-weight: bold;">
+                    Rp ${nominal.toLocaleString('id-ID')}
+                  </p>
+                  <div style="background: #FFF3CD; border: 1px solid #FF9800; padding: 10px; border-radius: 3px; color: #856404; font-size: 12px;">
+                    <strong>🧪 Simulasi Pembayaran</strong><br>
+                    Ini adalah simulasi. Data disimpan ke sistem namun tidak ada uang yang ditarik.
+                  </div>`,
+        type: 'info',
+        buttons: [
+          { 
+            text: '💳 Lanjut ke Pembayaran',
+            action: () => {
+              window.location.href = `payment-simulator.html?nominal=${nominal}&bulan=${encodeURIComponent(bulan)}&type=iuran_bulanan`;
+            }
+          },
+          { text: 'Batal' }
+        ]
+      });
+    }
+
+    function handleBayarIuranTambahan(deskripsi, nominal) {
+      showModal({
+        title: '🧪 Simulasi Iuran Tambahan',
+        message: `<p>Deskripsi: <strong>${deskripsi}</strong></p>
+                  <p style="margin: 15px 0; font-size: 18px; color: var(--warna-utama); font-weight: bold;">
+                    Rp ${nominal.toLocaleString('id-ID')}
+                  </p>
+                  <div style="background: #FFF3CD; border: 1px solid #FF9800; padding: 10px; border-radius: 3px; color: #856404; font-size: 12px;">
+                    <strong>🧪 Simulasi Pembayaran</strong><br>
+                    Ini adalah simulasi. Data disimpan ke sistem namun tidak ada uang yang ditarik.
+                  </div>`,
+        type: 'info',
+        buttons: [
+          { 
+            text: '💳 Lanjut ke Pembayaran',
+            action: () => {
+              window.location.href = `payment-simulator.html?nominal=${nominal}&bulan=${encodeURIComponent(deskripsi)}&type=iuran_tambahan`;
+            }
+          },
+          { text: 'Batal' }
+        ]
+      });
+    }
+
+    function handleLihatRincian(type) {
+      if (type === 'iuran') {
+        showModal({
+          title: 'Rincian Iuran Bulanan',
+          message: `<div style="text-align: left; font-size: 13px;">
+                      <p><strong>Nominal per bulan:</strong> Rp 50.000</p>
+                      <p><strong>Batas pembayaran:</strong> Tanggal 5 setiap bulan</p>
+                      <p><strong>Terlambat lebih dari 30 hari:</strong> Rp 2.500 denda per hari</p>
+                      <p style="margin-top: 15px;"><strong>Kegunaan iuran:</strong></p>
+                      <ul style="margin: 10px 0;">
+                        <li>Gaji pengurus RT</li>
+                        <li>Perawatan jalan & infrastruktur</li>
+                        <li>Kegiatan sosial & hajatan bersama</li>
+                        <li>Pengadaan perlengkapan & peralatan RT</li>
+                      </ul>
+                    </div>`,
+          type: 'info',
+          buttons: [{ text: 'Tutup' }]
+        });
+      }
+    }
+
+    // ==========================================
+    // SURAT & DOKUMEN
+    // ==========================================
+    function handleDownloadSurat(namaSurat, tanggalSelesai) {
+      setLoadingState(true);
+      
+      // Simulate PDF generation
+      setTimeout(() => {
+        setLoadingState(false);
+        
+        const user = JSON.parse(localStorage.getItem('userSession') || '{}');
+        const suratContent = generateSuratHTML(namaSurat, user, tanggalSelesai);
+        
+        showModal({
+          title: '📥 Download Surat',
+          message: `<p>Surat <strong>${namaSurat}</strong> siap untuk diunduh.</p>
+                    <p style="margin-top: 15px; color: #999; font-size: 13px;">
+                      File akan disimpan dalam format PDF ke komputer Anda.
+                    </p>
+                    <div style="background: #E3F2FD; padding: 10px; margin: 15px 0; border-radius: 3px; font-size: 12px;">
+                      <strong>Preview surat:</strong><br>
+                      ${namaSurat} | Tanggal: ${tanggalSelesai}
+                    </div>`,
+          type: 'info',
+          buttons: [
+            { 
+              text: '📥 Download PDF',
+              action: () => {
+                // Simulate PDF download
+                downloadPDF(namaSurat, suratContent);
+                showToast(`Surat ${namaSurat} telah diunduh`, 'success');
+              }
+            },
+            { text: 'Batal' }
+          ]
+        });
+      }, 1000);
+    }
+
+    function generateSuratHTML(namaSurat, user, tanggal) {
+      const tujuanMap = {
+        'Surat Keterangan Usaha': 'Izin mendirikan usaha/warung di rumah',
+        'Surat Domisili': 'Surat keterangan tempat tinggal',
+        'Surat Izin Usaha': 'Izin usaha perdagangan'
+      };
+
+      return `
+        <div style="font-family: Arial; padding: 40px; background: white;">
+          <div style="text-align: center; margin-bottom: 30px;">
+            <h2>PEMERINTAH KELURAHAN MAJU JAYA</h2>
+            <p style="margin: 5px 0; color: #666;">Kecamatan Jakarta Selatan</p>
+            <hr style="border: none; border-top: 2px solid black; margin: 10px 0;">
+          </div>
+
+          <div style="text-align: center; margin: 30px 0;">
+            <h3 style="margin: 0;">${namaSurat}</h3>
+          </div>
+
+          <div style="margin: 30px 0; line-height: 1.8;">
+            <p>Yang bertanda tangan di bawah ini, Ketua RT 05 Kelurahan Maju Jaya, menerangkan bahwa:</p>
+
+            <table style="width: 100%; margin: 20px 0;">
+              <tr>
+                <td style="width: 150px; vertical-align: top;"><strong>Nama Lengkap</strong></td>
+                <td>: ${user.name || '-'}</td>
+              </tr>
+              <tr>
+                <td><strong>No. Identitas</strong></td>
+                <td>: ${user.id || '-'}</td>
+              </tr>
+              <tr>
+                <td><strong>Alamat</strong></td>
+                <td>: Jl. Mawar No. 12 RT 05/RW 05, Kelurahan Maju Jaya</td>
+              </tr>
+              <tr>
+                <td><strong>Keperluan</strong></td>
+                <td>: ${tujuanMap[namaSurat] || 'Sesuai dengan permohonan'}</td>
+              </tr>
+            </table>
+
+            <p>Dengan ini kami menerangkan bahwa orang tersebut di atas benar-benar penduduk dan bertempat tinggal di wilayah Kelurahan Maju Jaya dan bahwa surat ini dikeluarkan untuk keperluan sebagaimana tersebut di atas.</p>
+
+            <p style="margin-top: 30px; text-align: right;">
+              Kelurahan Maju Jaya, ${tanggal}<br>
+              Ketua RT 05<br><br><br>
+              (Rahmat)<br>
+              Ketua RT
+            </p>
+          </div>
+        </div>
+      `;
+    }
+
+    function downloadPDF(filename, content) {
+      // Simulate PDF download (in real app, use jsPDF library)
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+      element.setAttribute('download', `${filename.replace(/\s+/g, '_')}.pdf`);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+
+    // ==========================================
+    // KEHADIRAN & RAPAT
+    // ==========================================
+    function handleMarkKehadiran(namaRapat, tanggal) {
+      const btn = document.getElementById('kehadiranBtn');
+      const user = JSON.parse(localStorage.getItem('userSession') || '{}');
+
+      showConfirm({
+        title: 'Konfirmasi Kehadiran',
+        message: `Apakah Anda akan hadir di acara:<br><br><strong>${namaRapat}</strong><br>Tanggal: ${tanggal}`,
+        confirmText: 'Ya, Saya Akan Hadir',
+        cancelText: 'Batal',
+        onConfirm: () => {
+          setLoadingState(true);
+          
+          setTimeout(() => {
+            setLoadingState(false);
+            
+            // Save kehadiran
+            let kehadiranList = JSON.parse(localStorage.getItem('kehadiranList') || '[]');
+            const kehadiran = {
+              id: 'HAD-' + Date.now(),
+              warga: user.name,
+              wargaId: user.id,
+              namaRapat: namaRapat,
+              tanggal: tanggal,
+              status: 'TERDAFTAR',
+              registeredAt: new Date().toLocaleString('id-ID')
+            };
+            
+            kehadiranList.push(kehadiran);
+            localStorage.setItem('kehadiranList', JSON.stringify(kehadiranList));
+
+            // Update button
+            btn.textContent = '✓ Terdaftar';
+            btn.disabled = true;
+            btn.style.backgroundColor = '#28A745';
+            btn.onclick = () => {
+              showModal({
+                title: 'Kehadiran Sudah Terdaftar',
+                message: `Anda sudah mendaftar kehadiran untuk acara ini.<br>ID Kehadiran: ${kehadiran.id}`,
+                type: 'info',
+                buttons: [{ text: 'OK' }]
+              });
+            };
+
+            showToast('✓ Kehadiran Anda telah dicatat', 'success');
+          }, 800);
+        }
+      });
+    }
+
+    // ==========================================
+    // UNDIAN & PEMENANG
+    // ==========================================
+
+    function handleViewWinner() {
+      window.location.href = 'pemenang-undian.html';
+    }
+
+    function handleSubmitAduan(event) {
+      event.preventDefault();
+      
+      const title = document.getElementById('aduan-title').value.trim();
+      const category = document.getElementById('aduan-category').value;
+      const desc = document.getElementById('aduan-desc').value.trim();
+
+      // Validation
+      if (!title || !category || !desc) {
+        showModal({
+          title: 'Form Tidak Lengkap',
+          message: 'Semua field harus diisi. Silakan cek kembali.',
+          type: 'warning',
+          buttons: [{ text: 'OK' }]
+        });
+        return;
+      }
+
+      setLoadingState(true);
+
+      setTimeout(() => {
+        setLoadingState(false);
+
+        const user = JSON.parse(localStorage.getItem('userSession') || '{}');
+        const aduan = {
+          id: 'ADU-' + Date.now(),
+          title: title,
+          category: category,
+          description: desc,
+          status: 'DITERIMA',
+          priority: 'NORMAL',
+          submittedAt: new Date().toLocaleString('id-ID'),
+          submittedBy: user.name,
+          wargaId: user.id
+        };
+
+        // Save to localStorage
+        let aduanList = JSON.parse(localStorage.getItem('aduanList') || '[]');
+        aduanList.push(aduan);
+        localStorage.setItem('aduanList', JSON.stringify(aduanList));
+
+        showModal({
+          title: '✓ Aduan Berhasil Dikirim',
+          message: `<p><strong>ID Aduan:</strong> ${aduan.id}</p>
+                    <p><strong>Status:</strong> DITERIMA</p>
+                    <p style="margin-top: 15px; color: #999; font-size: 13px;">
+                      Pengurus RT akan memproses aduan Anda dalam waktu 3-5 hari kerja. Kami akan menghubungi Anda jika diperlukan informasi tambahan.
+                    </p>`,
+          type: 'success',
+          buttons: [{ 
+            text: 'OK',
+            action: () => {
+              event.target.reset();
+              document.getElementById('aduan-category').selectedIndex = 0;
+            }
+          }]
+        });
+      }, 1000);
+    }
+
+    // Load pada page load
+    window.addEventListener('load', function() {
+      loadUserSession();
+      initUserMenu();
+      initProfileMenuItem();
+      showPaymentSuccessBanner();
+      
+      // Check if user already registered for kehadiran
+      const kehadiranList = JSON.parse(localStorage.getItem('kehadiranList') || '[]');
+      const user = JSON.parse(localStorage.getItem('userSession') || '{}');
+      const isRegistered = kehadiranList.some(k => k.warga === user.name && k.namaRapat.includes('Rapat Rutin'));
+      
+      if (isRegistered) {
+        const btn = document.getElementById('kehadiranBtn');
+        if (btn) {
+          btn.textContent = '✓ Terdaftar';
+          btn.disabled = true;
+          btn.style.backgroundColor = '#28A745';
+          btn.onclick = () => {
+            showModal({
+              title: 'Kehadiran Sudah Terdaftar',
+              message: 'Anda sudah mendaftar kehadiran untuk acara ini.',
+              type: 'info',
+              buttons: [{ text: 'OK' }]
+            });
+          };
+        }
+      }
+
+      // Attach form submission handler
+      const form = document.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', handleSubmitAduan);
+      }
+    });
+  </script>
+</body>
+</html>
